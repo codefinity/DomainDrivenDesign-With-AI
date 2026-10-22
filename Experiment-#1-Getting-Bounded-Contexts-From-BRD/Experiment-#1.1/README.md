@@ -1,4 +1,4 @@
-# Experiment 1: Getting bounded contexts from a BRD
+# Experiment 1.1: Getting bounded contexts from a BRD
 
 [Back to all experiments](../../README.md)
 
