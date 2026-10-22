@@ -8,7 +8,7 @@ Experiments in using AI to carry out Domain-Driven Design (DDD) work, starting f
 
 - [Community](#community)
 - [Experiments](#experiments)
-  - [Experiment 1: Getting bounded contexts from a BRD](Experiment-%231-Getting-Bounded-Contexts-From-BRD/README.md)
+  - [Experiment 1: Getting bounded contexts from a BRD](Experiment-%231-Getting-Bounded-Contexts-From-BRD/1.1/README.md)
 
 ## Community
 
@@ -39,4 +39,4 @@ Each experiment lives in its own folder, with a README describing its goal, inpu
 
 | # | Experiment | Input | Output |
 | --- | --- | --- | --- |
-| 1 | [Getting bounded contexts from a BRD](Experiment-%231-Getting-Bounded-Contexts-From-BRD/README.md) | HexCommerce BRD v3.0 | Context map: 20 bounded contexts, 4 external systems, 45 relationships |
+| 1 | [Getting bounded contexts from a BRD](Experiment-%231-Getting-Bounded-Contexts-From-BRD/1.1/README.md) | HexCommerce BRD v3.0 | Context map: 20 bounded contexts, 4 external systems, 45 relationships |
