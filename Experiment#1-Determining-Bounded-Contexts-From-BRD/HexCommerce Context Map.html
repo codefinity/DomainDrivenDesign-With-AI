@@ -1,0 +1,782 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>HexCommerce Context Map</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=JetBrains+Mono:wght@400;500;600&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+<style>
+/* Layout: an architect's dossier. Header and prose in a 1180px column; the context map runs wider, up to 1500px, with a details strip beneath it. */
+:root {
+  --bg: #F2F4F6; --surface: #FFFFFF; --ink: #14202B; --ink-2: #364553; --muted: #5C6977; --rule: #D5DBE1;
+  --core: #0B7A6E; --core-tint: #DAEFEB; --core-ink: #06584F;
+  --supp: #A6590F; --supp-tint: #F6E8D8; --supp-ink: #7A400A;
+  --gen: #546577; --gen-tint: #E3E8EE; --gen-ink: #3B4A5A;
+  --ext: #A1204A;
+  --edge: #8794A1; --edge-2: #3C4A58; --sk: #C7D1DA;
+  --f-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --f-body: "Source Sans 3", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0D1318; --surface: #141C23; --ink: #E3E9EF; --ink-2: #B7C3CE; --muted: #8F9DAA; --rule: #28333E;
+    --core: #3BC2AF; --core-tint: #0F2E29; --core-ink: #86DDD0;
+    --supp: #E29A52; --supp-tint: #30220F; --supp-ink: #F2C08E;
+    --gen: #93A4B5; --gen-tint: #1C2530; --gen-ink: #C4D0DC;
+    --ext: #EF7898;
+    --edge: #5C6A77; --edge-2: #AFBCC8; --sk: #2C3844;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0D1318; --surface: #141C23; --ink: #E3E9EF; --ink-2: #B7C3CE; --muted: #8F9DAA; --rule: #28333E;
+  --core: #3BC2AF; --core-tint: #0F2E29; --core-ink: #86DDD0;
+  --supp: #E29A52; --supp-tint: #30220F; --supp-ink: #F2C08E;
+  --gen: #93A4B5; --gen-tint: #1C2530; --gen-ink: #C4D0DC;
+  --ext: #EF7898;
+  --edge: #5C6A77; --edge-2: #AFBCC8; --sk: #2C3844;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--ink);
+  font: 400 16px/1.55 var(--f-body);
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 0 56px;
+}
+.wrap { max-width: 1180px; margin: 0 auto; }
+.wide { max-width: 1500px; margin: 0 auto; }
+h1, h2, h3, h4 { font-family: var(--f-display); text-wrap: balance; margin: 0; color: var(--ink); }
+h1 { font-weight: 700; font-size: clamp(2.1rem, 4.6vw, 3.4rem); line-height: 1.02; letter-spacing: -0.02em; }
+h2 { font-weight: 700; font-size: clamp(1.45rem, 2.4vw, 1.9rem); line-height: 1.15; letter-spacing: -0.01em; }
+h3 { font-weight: 700; font-size: 1.25rem; line-height: 1.2; }
+h4 { font-weight: 700; font-size: 1.08rem; line-height: 1.25; }
+p { margin: 0; }
+.mono, .refs, .rid { font-family: var(--f-mono); }
+.eyebrow { font: 600 12px/1.4 var(--f-mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+
+/* ---------- header ---------- */
+.masthead { padding-block: 44px 28px; display: grid; gap: 18px; }
+.lede { font-size: 1.15rem; line-height: 1.5; max-width: 68ch; color: var(--ink-2); }
+.lede strong { color: var(--ink); }
+.toc { display: flex; flex-wrap: wrap; gap: 8px 18px; font: 500 13px var(--f-mono); }
+.toc a { color: var(--ink-2); text-decoration: none; border-bottom: 1px solid var(--rule); padding-bottom: 2px; }
+.toc a:hover, .toc a:focus-visible { color: var(--ink); border-color: var(--ink); }
+.typekey { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; margin-top: 6px; }
+.typekey > div { display: grid; grid-template-columns: auto 1fr; gap: 4px 10px; align-items: baseline; padding: 12px 14px; background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; min-width: 0; }
+.typekey .n { font: 700 1.6rem/1 var(--f-display); font-variant-numeric: tabular-nums; }
+.typekey .k { font-weight: 700; }
+.typekey .d { grid-column: 1 / -1; color: var(--muted); font-size: 0.92rem; line-height: 1.4; }
+.typekey .core .n { color: var(--core); } .typekey .supporting .n { color: var(--supp); }
+.typekey .generic .n { color: var(--gen); } .typekey .external .n { color: var(--ext); }
+
+/* ---------- map ---------- */
+section { padding-block: 34px 8px; }
+.sechead { display: grid; gap: 8px; margin-bottom: 16px; }
+.sechead p { color: var(--ink-2); max-width: 72ch; }
+.toolbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 12px; }
+.toolbar .tl { font: 600 12px var(--f-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-right: 4px; }
+.lg { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px 6px 8px; border: 1px solid var(--rule); background: var(--surface); color: var(--ink-2); border-radius: 999px; font: 400 13px var(--f-body); cursor: pointer; }
+.lg svg { width: 46px; height: 18px; flex: none; }
+.lg strong { font: 600 12px var(--f-mono); color: var(--ink); margin-right: 2px; }
+.lg:hover { border-color: var(--edge-2); }
+.lg .ln { stroke: var(--edge); stroke-width: 1.5; fill: none; }
+.lg .ah { fill: var(--edge); }
+.lg.p-cs .ln { stroke: var(--edge-2); stroke-width: 1.7; } .lg.p-cs .ah { fill: var(--edge-2); }
+.lg.p-p .ln { stroke: var(--edge-2); }
+.lg.p-sk .ln { stroke: var(--edge-2); } .lg .ln.skband { stroke: var(--sk); stroke-width: 9; stroke-linecap: round; }
+.lg.p-acl .ln { stroke: var(--ext); stroke-dasharray: 5 4; } .lg.p-acl .ah { fill: var(--ext); }
+.lg[aria-pressed="true"] { border-color: var(--ink); background: var(--bg); box-shadow: inset 0 0 0 1px var(--ink); }
+.lg:focus-visible, .showmap:focus-visible, .clear:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.mapframe { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.mapframe figure { margin: 0; }
+#cmap { display: block; width: 100%; min-width: 1040px; height: auto; font-family: var(--f-body); }
+figcaption { padding: 10px 16px 14px; color: var(--muted); font-size: 0.9rem; border-top: 1px solid var(--rule); }
+.scrollhint { display: none; font: 500 12px var(--f-mono); color: var(--muted); margin: 0 0 8px; }
+@media (max-width: 1060px) { .scrollhint { display: block; } }
+
+#cmap .node { cursor: pointer; outline: none; }
+#cmap .node rect { stroke-width: 1.5; transition: stroke-width .12s; }
+#cmap .node.t-core rect { fill: var(--core-tint); stroke: var(--core); }
+#cmap .node.t-supporting rect { fill: var(--supp-tint); stroke: var(--supp); }
+#cmap .node.t-generic rect { fill: var(--gen-tint); stroke: var(--gen); }
+#cmap .node.t-external rect { fill: var(--surface); stroke: var(--ext); stroke-dasharray: 5 4; }
+#cmap .node .nm { fill: var(--ink); font: 600 14.5px var(--f-body); }
+#cmap .node .mt { font: 500 9.5px var(--f-mono); letter-spacing: 0.06em; }
+#cmap .node.t-core .mt { fill: var(--core-ink); }
+#cmap .node.t-supporting .mt { fill: var(--supp-ink); }
+#cmap .node.t-generic .mt { fill: var(--gen-ink); }
+#cmap .node.t-external .mt { fill: var(--ext); }
+#cmap .node:hover rect, #cmap .node:focus-visible rect { stroke-width: 3; }
+#cmap .node.sel rect { stroke-width: 3.5; }
+#cmap .edge .ln { stroke: var(--edge); stroke-width: 1.3; fill: none; }
+#cmap .edge .ah { fill: var(--edge); }
+#cmap .edge.p-cs .ln { stroke: var(--edge-2); stroke-width: 1.6; }
+#cmap .edge.p-cs .ah { fill: var(--edge-2); }
+#cmap .edge.p-p .ln { stroke: var(--edge-2); stroke-width: 1.3; }
+#cmap .edge.p-sk .ln { stroke: var(--edge-2); }
+#cmap .edge .ln.skband { stroke: var(--sk); stroke-width: 11; stroke-linecap: round; }
+#cmap .edge.p-acl .ln { stroke: var(--ext); stroke-dasharray: 5 4; }
+#cmap .edge.p-acl .ah { fill: var(--ext); }
+#cmap .chip rect { fill: var(--surface); stroke: var(--rule); }
+#cmap .chip text { fill: var(--ink-2); font: 500 10.5px var(--f-mono); }
+#cmap .edge.p-p .chip rect, #cmap .edge.p-sk .chip rect { stroke: var(--edge-2); }
+#cmap .band .rule { stroke: var(--rule); stroke-width: 1.5; stroke-dasharray: 2 5; }
+#cmap .bandlbl { fill: var(--muted); font: 600 10px var(--f-mono); letter-spacing: 0.08em; }
+#cmap .brk { stroke: var(--muted); stroke-width: 1.2; fill: none; }
+#cmap .brklbl { fill: var(--ink-2); font: 500 12.5px var(--f-body); }
+#cmap .node, #cmap .edge, #cmap .band { transition: opacity .15s ease; }
+#cmap.focusing .node:not(.on) { opacity: 0.18; }
+#cmap.focusing .edge:not(.on) { opacity: 0.06; }
+#cmap.focusing .band { opacity: 0.35; }
+#cmap.focusing .edge.on .ln:not(.skband) { stroke: var(--ink); }
+#cmap.focusing .edge.on .ah { fill: var(--ink); }
+#cmap.focusing .edge.on .chip rect { stroke: var(--ink); }
+#cmap.focusing .edge.on .chip text { fill: var(--ink); }
+@media (prefers-reduced-motion: reduce) { #cmap .node, #cmap .edge, #cmap .band, #cmap .node rect { transition: none; } }
+
+/* ---------- details panel ---------- */
+#panel { margin-top: 14px; background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 18px 20px; display: grid; gap: 12px; }
+#panel .ph { display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: center; justify-content: space-between; }
+#panel .ph > div { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; min-width: 0; }
+#panel .pj { color: var(--ink-2); max-width: 80ch; }
+#panel .hint { color: var(--ink-2); max-width: 86ch; }
+#panel dl.pdefs { margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 10px 24px; }
+#panel dl.pdefs div { display: grid; grid-template-columns: 116px 1fr; gap: 10px; align-items: baseline; min-width: 0; }
+#panel dl.pdefs dd { margin: 0; color: var(--ink-2); font-size: 0.94rem; line-height: 1.45; }
+#panel dl.pdefs dt { margin: 0; }
+.rels { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 10px 20px; }
+.rels li { display: grid; grid-template-columns: auto 1fr; gap: 4px 10px; align-items: baseline; padding-top: 10px; border-top: 1px solid var(--rule); min-width: 0; }
+.rels .dir { font-weight: 600; }
+.rels .fl { grid-column: 2; color: var(--ink-2); font-size: 0.94rem; line-height: 1.45; }
+.rels .rf { grid-column: 2; font: 400 11.5px/1.5 var(--f-mono); color: var(--muted); }
+.clear { font: 500 13px var(--f-body); padding: 6px 12px; border-radius: 999px; border: 1px solid var(--rule); background: var(--bg); color: var(--ink); cursor: pointer; }
+.clear:hover { border-color: var(--ink); }
+
+/* ---------- chips ---------- */
+.tchip { display: inline-block; font: 600 11px/1 var(--f-mono); letter-spacing: 0.07em; text-transform: uppercase; padding: 5px 8px; border-radius: 5px; border: 1px solid; white-space: nowrap; }
+.tchip.t-core { color: var(--core-ink); background: var(--core-tint); border-color: var(--core); }
+.tchip.t-supporting { color: var(--supp-ink); background: var(--supp-tint); border-color: var(--supp); }
+.tchip.t-generic { color: var(--gen-ink); background: var(--gen-tint); border-color: var(--gen); }
+.tchip.t-external { color: var(--ext); background: var(--surface); border-color: var(--ext); border-style: dashed; }
+.pchip { display: inline-block; font: 500 11.5px/1 var(--f-mono); padding: 5px 9px; border-radius: 999px; border: 1px solid var(--rule); background: var(--surface); color: var(--ink-2); white-space: nowrap; }
+.pchip.p-cs, .pchip.p-p, .pchip.p-sk { border-color: var(--edge-2); color: var(--ink); }
+.pchip.p-acl { border-color: var(--ext); color: var(--ext); border-style: dashed; }
+.pchip.p-sw { border-style: dotted; }
+.tag { display: inline-block; margin-left: 8px; font: 500 10.5px/1 var(--f-mono); color: var(--muted); border: 1px dotted var(--muted); border-radius: 4px; padding: 3px 5px; vertical-align: 1px; white-space: nowrap; }
+
+/* ---------- contexts ---------- */
+.group { display: grid; gap: 14px; padding-block: 18px; }
+.ghead { display: grid; gap: 4px; }
+.ghead h3 { display: flex; align-items: center; gap: 10px; }
+.ghead p { color: var(--muted); }
+.ghead .cnt { font: 500 13px var(--f-mono); color: var(--muted); }
+.sw { width: 14px; height: 14px; border-radius: 3px; border: 1.5px solid; display: inline-block; }
+.sw.t-core { background: var(--core-tint); border-color: var(--core); }
+.sw.t-supporting { background: var(--supp-tint); border-color: var(--supp); }
+.sw.t-generic { background: var(--gen-tint); border-color: var(--gen); }
+.sw.t-external { background: transparent; border-color: var(--ext); border-style: dashed; }
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 520px), 1fr)); gap: 14px; }
+.card { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 18px 20px 16px; display: grid; gap: 12px; align-content: start; min-width: 0; scroll-margin-top: 16px; }
+.cards > .card:last-child:nth-child(odd) { grid-column: 1 / -1; }
+.card > header { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; justify-content: space-between; }
+.card .job { font-size: 1.02rem; color: var(--ink); }
+.card dl { margin: 0; display: grid; grid-template-columns: 112px 1fr; gap: 8px 14px; }
+.card dt { font: 600 11px/1.9 var(--f-mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+.card dd { margin: 0; color: var(--ink-2); font-size: 0.95rem; line-height: 1.45; min-width: 0; }
+.card dd ul { margin: 0; padding-left: 1.05em; display: grid; gap: 3px; }
+.card dd.lang { font-style: italic; }
+.card dd.src { display: flex; flex-wrap: wrap; gap: 6px 14px; font: 500 12.5px var(--f-mono); color: var(--ink-2); }
+.showmap { justify-self: start; font: 600 13px var(--f-body); color: var(--ink); background: none; border: 0; border-bottom: 1px solid var(--rule); padding: 2px 0; cursor: pointer; }
+.showmap:hover { border-color: var(--ink); }
+@media (max-width: 560px) { .card dl { grid-template-columns: 1fr; gap: 2px; } .card dd { margin-bottom: 8px; } }
+.extlist { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 12px; }
+.extlist li { background: var(--surface); border: 1px dashed var(--ext); border-radius: 10px; padding: 14px 16px; color: var(--ink-2); font-size: 0.95rem; line-height: 1.45; }
+.extlist strong { display: block; color: var(--ink); font-family: var(--f-display); font-size: 1rem; margin-bottom: 4px; }
+
+/* ---------- patterns ---------- */
+dl.patterns { margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: 12px 28px; }
+dl.patterns div { display: grid; grid-template-columns: 124px 1fr; gap: 10px; align-items: baseline; min-width: 0; }
+dl.patterns dt { margin: 0; } dl.patterns dd { margin: 0; color: var(--ink-2); font-size: 0.95rem; line-height: 1.45; }
+.arrownote { margin-top: 14px; padding: 12px 14px; border-left: 3px solid var(--edge-2); background: var(--surface); color: var(--ink-2); max-width: 90ch; }
+
+/* ---------- tables ---------- */
+.tablewrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; }
+table { border-collapse: collapse; width: 100%; font-size: 0.93rem; line-height: 1.45; }
+th, td { text-align: left; vertical-align: top; padding: 10px 14px; border-bottom: 1px solid var(--rule); }
+thead th { font: 600 11px var(--f-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); background: var(--bg); position: sticky; top: 0; }
+tbody tr:last-child td, tbody tr:last-child th { border-bottom: 0; }
+.reg { min-width: 980px; }
+.reg td.rid { font-size: 12px; color: var(--muted); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.reg td.pair { min-width: 210px; font-weight: 600; color: var(--ink); }
+.reg td.pair .ar { color: var(--muted); font-weight: 400; padding-inline: 2px; }
+.reg td.refs { font-size: 11.5px; color: var(--muted); min-width: 170px; }
+.reg tbody tr.hl td { background: var(--bg); }
+.langtbl { min-width: 720px; }
+.langtbl th[scope="row"] { font-family: var(--f-display); font-weight: 700; font-size: 1rem; color: var(--ink); width: 150px; white-space: nowrap; }
+.langtbl ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 4px; color: var(--ink-2); }
+.langtbl .where { display: inline-block; min-width: 190px; font: 500 12px var(--f-mono); color: var(--ink); margin-right: 8px; }
+
+/* ---------- notes ---------- */
+.notes { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: 14px; }
+.note { padding: 16px 18px; background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; display: grid; gap: 8px; align-content: start; min-width: 0; }
+.note p { color: var(--ink-2); font-size: 0.96rem; line-height: 1.5; }
+footer { padding-block: 30px 0; color: var(--muted); font-size: 0.9rem; }
+footer p { max-width: 90ch; }
+</style>
+
+<div class="wrap">
+  <header class="masthead">
+    <p class="eyebrow">HexCommerce BRD v3.0 · 22 October 2026 · Strategic domain-driven design</p>
+    <h1>HexCommerce Context Map</h1>
+    <p class="lede">The BRD's 31 processes, 317 functional requirements and 111 business rules resolve into <strong>20 bounded contexts</strong>: five core, ten supporting and five generic, with four external systems. Each boundary follows a change in the language, an owner or a consistency rule in the document.</p>
+    <nav class="toc" aria-label="Sections">
+      <a href="#map">Context map</a><a href="#contexts">Bounded contexts</a><a href="#patterns">Relationship patterns</a><a href="#relationships">Relationship register</a><a href="#language">Where the language splits</a><a href="#notes">Design notes</a>
+    </nav>
+    <div class="typekey" role="list">
+      <div class="core" role="listitem"><span class="n">5</span><span class="k">Core</span><span class="d">Where HexCommerce competes: discovery, deals, checkout, ordering and seller supply.</span></div>
+      <div class="supporting" role="listitem"><span class="n">10</span><span class="k">Supporting</span><span class="d">Specific to the business but not what makes it win.</span></div>
+      <div class="generic" role="listitem"><span class="n">5</span><span class="k">Generic</span><span class="d">Problems every business has; buy or adopt and conform.</span></div>
+      <div class="external" role="listitem"><span class="n">4</span><span class="k">External</span><span class="d">Payment provider, email service, carriers, and a tax engine if needed.</span></div>
+    </div>
+  </header>
+</div>
+
+<section id="map" class="wide" aria-labelledby="map-h">
+  <div class="sechead">
+    <h2 id="map-h">Context map</h2>
+    <p>Select a context to trace its relationships, or pick a pattern to see where it is used. Arrows run from upstream to downstream.</p>
+  </div>
+  <div class="toolbar" role="group" aria-label="Highlight a relationship pattern">
+    <span class="tl">Highlight</span>
+    <button type="button" class="lg edge p-ohs" data-pattern="ohs" aria-pressed="false"><svg viewBox="0 0 46 18" aria-hidden="true"><line x1="2" y1="9" x2="34" y2="9" class="ln"/><polygon class="ah" points="44,9 34.5,4.4 34.5,13.6"/></svg><span><strong>OHS/PL ▸ CF</strong> Open host service, published language ▸ conformist</span></button><button type="button" class="lg edge p-cs" data-pattern="cs" aria-pressed="false"><svg viewBox="0 0 46 18" aria-hidden="true"><line x1="2" y1="9" x2="34" y2="9" class="ln"/><polygon class="ah" points="44,9 34.5,4.4 34.5,13.6"/></svg><span><strong>C/S</strong> Customer–supplier</span></button><button type="button" class="lg edge p-p" data-pattern="p" aria-pressed="false"><svg viewBox="0 0 46 18" aria-hidden="true"><line x1="2" y1="6.6" x2="44" y2="6.6" class="ln"/><line x1="2" y1="11.4" x2="44" y2="11.4" class="ln"/></svg><span><strong>Partnership</strong> </span></button><button type="button" class="lg edge p-sk" data-pattern="sk" aria-pressed="false"><svg viewBox="0 0 46 18" aria-hidden="true"><line x1="2" y1="9" x2="44" y2="9" class="ln skband"/><line x1="2" y1="9" x2="44" y2="9" class="ln"/></svg><span><strong>Shared kernel</strong> </span></button><button type="button" class="lg edge p-acl" data-pattern="acl" aria-pressed="false"><svg viewBox="0 0 46 18" aria-hidden="true"><line x1="2" y1="9" x2="34" y2="9" class="ln"/><polygon class="ah" points="44,9 34.5,4.4 34.5,13.6"/></svg><span><strong>ACL</strong> Anti-corruption layer</span></button>
+  </div>
+  <p class="scrollhint">Scroll sideways to see the whole map.</p>
+  <div class="mapframe">
+    <figure>
+      <svg id="cmap" viewBox="0 0 1480 1062" role="img" aria-label="Context map of HexCommerce: 20 bounded contexts and 4 external systems with their upstream and downstream relationships">
+<g class="band">
+  <line class="rule" x1="20" y1="930" x2="1460" y2="930"/>
+  <text class="bandlbl" x="22" y="921">PLATFORM SERVICES · RELATED TO EVERY CONTEXT, SO NOT DRAWN EDGE BY EDGE</text>
+  <path class="brk" d="M30,972 V962 H530 V972"/>
+  <text class="brklbl" x="280" y="955" text-anchor="middle">Upstream of every context · OHS ▸ CF</text>
+  <path class="brk" d="M630,972 V962 H1130 V972"/>
+  <text class="brklbl" x="880" y="955" text-anchor="middle">Subscribe to every context's events · PL ▸ CF</text>
+</g><g class="edges"><g class="edge p-ohs" data-u="CAT" data-d="LST" data-p="ohs" data-rid="R01"><line class="ln" x1="130.0" y1="401.0" x2="130.0" y2="288.5"/><polygon class="ah" points="130.0,280.5 134.6,290.0 125.4,290.0"/><g class="chip"><rect x="88.1" y="331.8" width="83.8" height="18" rx="9"/><text x="130.0" y="344.4" text-anchor="middle">OHS/PL ▸ CF</text></g></g><g class="edge p-ohs" data-u="SEL" data-d="LST" data-p="ohs" data-rid="R02"><line class="ln" x1="130.0" y1="119.0" x2="130.0" y2="211.5"/><polygon class="ah" points="130.0,219.5 125.4,210.0 134.6,210.0"/><g class="chip"><rect x="88.1" y="160.2" width="83.8" height="18" rx="9"/><text x="130.0" y="172.8" text-anchor="middle">OHS/PL ▸ CF</text></g></g><g class="edge p-ohs" data-u="CAT" data-d="PRC" data-p="ohs" data-rid="R03"><line class="ln" x1="158.1" y1="401.0" x2="395.3" y2="155.8"/><polygon class="ah" points="400.9,150.1 397.6,160.1 391.0,153.7"/><g class="chip"><rect x="266.7" y="236.4" width="83.8" height="18" rx="9"/><text x="308.6" y="249.0" text-anchor="middle">OHS/PL ▸ CF</text></g></g><g class="edge p-ohs" data-u="LST" data-d="PRC" data-p="ohs" data-rid="R04"><line class="ln" x1="196.9" y1="221.0" x2="354.4" y2="152.8"/><polygon class="ah" points="361.7,149.6 354.8,157.6 351.2,149.2"/><g class="chip"><rect x="237.4" y="176.3" width="83.8" height="18" rx="9"/><text x="279.3" y="188.9" text-anchor="middle">OHS/PL ▸ CF</text></g></g><g class="edge p-ohs" data-u="CAT" data-d="MKT" data-p="ohs" data-rid="R05"><line class="ln" x1="130.0" y1="459.0" x2="130.0" y2="571.5"/><polygon class="ah" points="130.0,579.5 125.4,570.0 134.6,570.0"/><g class="chip"><rect x="88.1" y="510.2" width="83.8" height="18" rx="9"/><text x="130.0" y="522.9" text-anchor="middle">OHS/PL ▸ CF</text></g></g><g class="edge p-ohs" data-u="CAT" data-d="DISC" data-p="ohs" data-rid="R06"><line class="ln" x1="230.0" y1="453.3" x2="320.7" y2="474.5"/><polygon class="ah" points="328.5,476.3 318.2,478.6 320.3,469.7"/><g class="chip"><rect x="237.3" y="455.8" width="83.8" height="18" rx="9"/><text x="279.3" y="468.4" text-anchor="middle">OHS/PL ▸ CF</text></g></g><g class="edge p-ohs" data-u="LST" data-d="DISC" data-p="ohs" data-rid="R07"><line class="ln" x1="164.8" y1="279.0" x2="387.9" y2="464.9"/><polygon class="ah" points="394.0,470.0 383.8,467.5 389.7,460.4"/><g class="chip"><rect x="191.6" y="327.3" width="83.8" height="18" rx="9"/><text x="233.6" y="339.9" text-anchor="middle">OHS/PL ▸ CF</text></g></g><g class="edge p-ohs" data-u="PRC" data-d="DISC" data-p="ohs" data-rid="R08"><line class="ln" x1="430.0" y1="149.0" x2="430.0" y2="461.5"/><polygon class="ah" points="430.0,469.5 425.4,460.0 434.6,460.0"/><g class="chip"><rect x="388.1" y="300.2" width="83.8" height="18" rx="9"/><text x="430.0" y="312.9" text-anchor="middle">OHS/PL ▸ CF</text></g></g><g class="edge p-ohs" data-u="MKT" data-d="DISC" data-p="ohs" data-rid="R09"><line class="ln" x1="209.1" y1="581.0" x2="342.0" y2="532.3"/><polygon class="ah" points="349.5,529.5 342.2,537.1 339.0,528.5"/><g class="chip"><rect x="237.4" y="546.3" width="83.8" height="18" rx="9"/><text x="279.3" y="558.9" text-anchor="middle">OHS/PL ▸ CF</text></g></g><g class="edge p-ohs" data-u="REV" data-d="DISC" data-p="ohs" data-rid="R10"><line class="ln" x1="430.0" y1="701.0" x2="430.0" y2="538.5"/><polygon class="ah" points="430.0,530.5 434.6,540.0 425.4,540.0"/><g class="chip"><rect x="388.1" y="606.8" width="83.8" height="18" rx="9"/><text x="430.0" y="619.4" text-anchor="middle">OHS/PL ▸ CF</text></g></g><g class="edge p-cs" data-u="PRC" data-d="BSK" data-p="cs" data-rid="R11"><line class="ln" x1="530.0" y1="136.7" x2="620.6" y2="151.8"/><polygon class="ah" points="628.5,153.1 618.4,156.1 619.9,147.0"/><g class="chip"><rect x="562.7" y="135.9" width="33.0" height="18" rx="9"/><text x="579.3" y="148.5" text-anchor="middle">C/S</text></g></g><g class="edge p-sk" data-u="BSK" data-d="CHK" data-p="sk" data-rid="R12"><line class="ln skband" x1="730.0" y1="199.0" x2="730.0" y2="361.0"/><line class="ln" x1="730.0" y1="199.0" x2="730.0" y2="361.0"/><g class="chip"><rect x="681.7" y="271.0" width="96.5" height="18" rx="9"/><text x="730.0" y="283.6" text-anchor="middle">Shared kernel</text></g></g><g class="edge p-cs" data-u="CUS" data-d="CHK" data-p="cs" data-rid="R13"><line class="ln" x1="990.5" y1="199.0" x2="777.2" y2="355.4"/><polygon class="ah" points="770.8,360.1 775.7,350.8 781.1,358.2"/><g class="chip"><rect x="864.1" y="270.6" width="33.0" height="18" rx="9"/><text x="880.6" y="283.2" text-anchor="middle">C/S</text></g></g><g class="edge p-cs" data-u="PRC" data-d="CHK" data-p="cs" data-rid="R14"><line class="ln" x1="462.2" y1="149.0" x2="690.7" y2="354.6"/><polygon class="ah" points="696.7,360.0 686.5,357.1 692.7,350.2"/><g class="chip"><rect x="591.1" y="270.8" width="33.0" height="18" rx="9"/><text x="607.6" y="283.4" text-anchor="middle">C/S</text></g></g><g class="edge p-cs" data-u="CAT" data-d="CHK" data-p="cs" data-rid="R15"><line class="ln" x1="230.0" y1="423.3" x2="620.5" y2="397.3"/><polygon class="ah" points="628.5,396.8 619.3,402.0 618.7,392.8"/><g class="chip"><rect x="512.4" y="394.4" width="33.0" height="18" rx="9"/><text x="528.9" y="407.0" text-anchor="middle">C/S</text></g></g><g class="edge p-cs" data-u="LST" data-d="CHK" data-p="cs" data-rid="R16"><line class="ln" x1="230.0" y1="273.3" x2="620.7" y2="364.5"/><polygon class="ah" points="628.5,366.3 618.2,368.6 620.3,359.7"/><g class="chip"><rect x="516.4" y="335.0" width="33.0" height="18" rx="9"/><text x="532.9" y="347.6" text-anchor="middle">C/S</text></g></g><g class="edge p-p" data-u="CHK" data-d="ORD" data-p="p" data-rid="R17"><line class="ln" x1="727.6" y1="419.0" x2="727.6" y2="591.0"/><line class="ln" x1="732.4" y1="419.0" x2="732.4" y2="591.0"/><g class="chip"><rect x="688.1" y="496.0" width="83.8" height="18" rx="9"/><text x="730.0" y="508.6" text-anchor="middle">Partnership</text></g></g><g class="edge p-p" data-u="ORD" data-d="FUL" data-p="p" data-rid="R18"><line class="ln" x1="830.0" y1="622.4" x2="930.0" y2="622.4"/><line class="ln" x1="830.0" y1="617.6" x2="930.0" y2="617.6"/><g class="chip"><rect x="838.1" y="611.0" width="83.8" height="18" rx="9"/><text x="880.0" y="623.6" text-anchor="middle">Partnership</text></g></g><g class="edge p-ohs1" data-u="FUL" data-d="CHK" data-p="ohs1" data-rid="R19"><line class="ln" x1="992.2" y1="591.0" x2="775.4" y2="424.8"/><polygon class="ah" points="769.0,419.9 779.4,422.0 773.8,429.3"/><g class="chip"><rect x="915.1" y="547.8" width="64.8" height="18" rx="9"/><text x="947.5" y="560.4" text-anchor="middle">OHS ▸ CF</text></g></g><g class="edge p-ohs1" data-u="PAYM" data-d="CHK" data-p="ohs1" data-rid="R20"><line class="ln" x1="930.0" y1="390.0" x2="839.5" y2="390.0"/><polygon class="ah" points="831.5,390.0 841.0,385.4 841.0,394.6"/><g class="chip"><rect x="848.4" y="381.0" width="64.8" height="18" rx="9"/><text x="880.8" y="393.6" text-anchor="middle">OHS ▸ CF</text></g></g><g class="edge p-ohs1" data-u="PAYM" data-d="ORD" data-p="ohs1" data-rid="R21"><line class="ln" x1="992.2" y1="419.0" x2="775.4" y2="585.2"/><polygon class="ah" points="769.0,590.1 773.8,580.7 779.4,588.0"/><g class="chip"><rect x="821.4" y="516.1" width="64.8" height="18" rx="9"/><text x="853.8" y="528.7" text-anchor="middle">OHS ▸ CF</text></g></g><g class="edge p-ohs1" data-u="PAYM" data-d="CUS" data-p="ohs1" data-rid="R22"><line class="ln" x1="1030.0" y1="361.0" x2="1030.0" y2="208.5"/><polygon class="ah" points="1030.0,200.5 1034.6,210.0 1025.4,210.0"/><g class="chip"><rect x="997.6" y="313.5" width="64.8" height="18" rx="9"/><text x="1030.0" y="326.1" text-anchor="middle">OHS ▸ CF</text></g></g><g class="edge p-ohs1" data-u="PAYM" data-d="SPO" data-p="ohs1" data-rid="R23"><line class="ln" x1="1067.8" y1="419.0" x2="1284.6" y2="585.2"/><polygon class="ah" points="1291.0,590.1 1280.6,588.0 1286.2,580.7"/><g class="chip"><rect x="1147.0" y="495.5" width="64.8" height="18" rx="9"/><text x="1179.4" y="508.1" text-anchor="middle">OHS ▸ CF</text></g></g><g class="edge p-cs" data-u="ORD" data-d="RET" data-p="cs" data-rid="R24"><line class="ln" x1="769.5" y1="649.0" x2="982.8" y2="805.4"/><polygon class="ah" points="989.2,810.1 978.9,808.2 984.3,800.8"/><g class="chip"><rect x="889.2" y="739.9" width="33.0" height="18" rx="9"/><text x="905.8" y="752.5" text-anchor="middle">C/S</text></g></g><g class="edge p-cs" data-u="ORD" data-d="CS" data-p="cs" data-rid="R25"><line class="ln" x1="730.0" y1="649.0" x2="730.0" y2="801.5"/><polygon class="ah" points="730.0,809.5 725.4,800.0 734.6,800.0"/><g class="chip"><rect x="713.5" y="720.2" width="33.0" height="18" rx="9"/><text x="730.0" y="732.9" text-anchor="middle">C/S</text></g></g><g class="edge p-cs" data-u="RET" data-d="CS" data-p="cs" data-rid="R26"><line class="ln" x1="930.0" y1="840.0" x2="839.5" y2="840.0"/><polygon class="ah" points="831.5,840.0 841.0,835.4 841.0,844.6"/><g class="chip"><rect x="864.2" y="831.0" width="33.0" height="18" rx="9"/><text x="880.8" y="843.6" text-anchor="middle">C/S</text></g></g><g class="edge p-ohs" data-u="ORD" data-d="REV" data-p="ohs" data-rid="R27"><line class="ln" x1="650.9" y1="649.0" x2="518.0" y2="697.7"/><polygon class="ah" points="510.5,700.5 517.8,692.9 521.0,701.5"/><g class="chip"><rect x="538.8" y="665.7" width="83.8" height="18" rx="9"/><text x="580.7" y="678.3" text-anchor="middle">OHS/PL ▸ CF</text></g></g><g class="edge p-ohs" data-u="FUL" data-d="SPO" data-p="ohs" data-rid="R28"><line class="ln" x1="1130.0" y1="620.0" x2="1220.5" y2="620.0"/><polygon class="ah" points="1228.5,620.0 1219.0,624.6 1219.0,615.4"/><g class="chip"><rect x="1142.2" y="611.0" width="83.8" height="18" rx="9"/><text x="1184.2" y="623.6" text-anchor="middle">OHS/PL ▸ CF</text></g></g><g class="edge p-ohs" data-u="RET" data-d="SPO" data-p="ohs" data-rid="R29"><line class="ln" x1="1069.5" y1="811.0" x2="1282.8" y2="654.6"/><polygon class="ah" points="1289.2,649.9 1284.3,659.2 1278.9,651.8"/><g class="chip"><rect x="1084.7" y="760.1" width="83.8" height="18" rx="9"/><text x="1126.7" y="772.7" text-anchor="middle">OHS/PL ▸ CF</text></g></g><g class="edge p-ohs" data-u="SEL" data-d="SPO" data-p="ohs" data-rid="R30"><path class="ln" d="M130,61.0 V40 Q130,30 140,30 H1446 Q1456,30 1456,40 V610 Q1456,620 1446,620 H1432.0"/><polygon class="ah" points="1431.5,620.0 1441.0,615.4 1441.0,624.6"/><g class="chip"><rect x="758.1" y="21.0" width="83.8" height="18" rx="9"/><text x="800.0" y="33.6" text-anchor="middle">OHS/PL ▸ CF</text></g></g><g class="edge p-acl" data-u="PSP" data-d="PAYM" data-p="acl" data-rid="R31"><line class="ln" x1="1230.0" y1="390.0" x2="1139.5" y2="390.0"/><polygon class="ah" points="1131.5,390.0 1141.0,385.4 1141.0,394.6"/><g class="chip"><rect x="1164.2" y="381.0" width="33.0" height="18" rx="9"/><text x="1180.8" y="393.6" text-anchor="middle">ACL</text></g></g><g class="edge p-acl" data-u="CAR" data-d="FUL" data-p="acl" data-rid="R32"><line class="ln" x1="1290.5" y1="811.0" x2="1077.2" y2="654.6"/><polygon class="ah" points="1070.8,649.9 1081.1,651.8 1075.7,659.2"/><g class="chip"><rect x="1225.6" y="766.6" width="33.0" height="18" rx="9"/><text x="1242.1" y="779.2" text-anchor="middle">ACL</text></g></g><g class="edge p-acl" data-u="EML" data-d="NTF" data-p="acl" data-rid="R33"><line class="ln" x1="1230.0" y1="1010.0" x2="1139.5" y2="1010.0"/><polygon class="ah" points="1131.5,1010.0 1141.0,1005.4 1141.0,1014.6"/><g class="chip"><rect x="1164.2" y="1001.0" width="33.0" height="18" rx="9"/><text x="1180.8" y="1013.6" text-anchor="middle">ACL</text></g></g><g class="edge p-acl" data-u="TAX" data-d="CHK" data-p="acl" data-rid="R34"><line class="ln" x1="1250.9" y1="199.0" x2="818.0" y2="357.7"/><polygon class="ah" points="810.5,360.5 817.8,352.9 821.0,361.5"/><g class="chip"><rect x="1124.3" y="230.4" width="33.0" height="18" rx="9"/><text x="1140.8" y="243.0" text-anchor="middle">ACL</text></g></g></g><g class="nodes"><g class="node t-core" data-id="DISC" tabindex="0" role="button" aria-label="Search &amp; Discovery, core"><rect x="330.0" y="471.0" width="200" height="58" rx="7"/><text class="nm" x="430" y="498" text-anchor="middle">Search &amp; Discovery</text><text class="mt" x="430" y="516" text-anchor="middle">CORE · CAT · PDP</text></g><g class="node t-core" data-id="PRC" tabindex="0" role="button" aria-label="Deals &amp; Offer Pricing, core"><rect x="330.0" y="91.0" width="200" height="58" rx="7"/><text class="nm" x="430" y="118" text-anchor="middle">Deals &amp; Offer Pricing</text><text class="mt" x="430" y="136" text-anchor="middle">CORE · SDL · MKT · PRC</text></g><g class="node t-core" data-id="CHK" tabindex="0" role="button" aria-label="Checkout, core"><rect x="630.0" y="361.0" width="200" height="58" rx="7"/><text class="nm" x="730" y="388" text-anchor="middle">Checkout</text><text class="mt" x="730" y="406" text-anchor="middle">CORE · CHK</text></g><g class="node t-core" data-id="ORD" tabindex="0" role="button" aria-label="Ordering, core"><rect x="630.0" y="591.0" width="200" height="58" rx="7"/><text class="nm" x="730" y="618" text-anchor="middle">Ordering</text><text class="mt" x="730" y="636" text-anchor="middle">CORE · ORD</text></g><g class="node t-core" data-id="LST" tabindex="0" role="button" aria-label="Seller Listings, core"><rect x="30.0" y="221.0" width="200" height="58" rx="7"/><text class="nm" x="130" y="248" text-anchor="middle">Seller Listings</text><text class="mt" x="130" y="266" text-anchor="middle">CORE · SLS</text></g><g class="node t-supporting" data-id="CAT" tabindex="0" role="button" aria-label="Store Catalogue, supporting"><rect x="30.0" y="401.0" width="200" height="58" rx="7"/><text class="nm" x="130" y="428" text-anchor="middle">Store Catalogue</text><text class="mt" x="130" y="446" text-anchor="middle">SUPPORTING · CTL · CAT</text></g><g class="node t-supporting" data-id="MKT" tabindex="0" role="button" aria-label="Merchandising, supporting"><rect x="30.0" y="581.0" width="200" height="58" rx="7"/><text class="nm" x="130" y="608" text-anchor="middle">Merchandising</text><text class="mt" x="130" y="626" text-anchor="middle">SUPPORTING · MKT</text></g><g class="node t-supporting" data-id="BSK" tabindex="0" role="button" aria-label="Shopping Basket &amp; Lists, supporting"><rect x="630.0" y="141.0" width="200" height="58" rx="7"/><text class="nm" x="730" y="168" text-anchor="middle">Shopping Basket &amp; Lists</text><text class="mt" x="730" y="186" text-anchor="middle">SUPPORTING · CRT</text></g><g class="node t-supporting" data-id="CUS" tabindex="0" role="button" aria-label="Customer Account, supporting"><rect x="930.0" y="141.0" width="200" height="58" rx="7"/><text class="nm" x="1030" y="168" text-anchor="middle">Customer Account</text><text class="mt" x="1030" y="186" text-anchor="middle">SUPPORTING · ACC · DAT</text></g><g class="node t-supporting" data-id="FUL" tabindex="0" role="button" aria-label="Fulfilment &amp; Delivery, supporting"><rect x="930.0" y="591.0" width="200" height="58" rx="7"/><text class="nm" x="1030" y="618" text-anchor="middle">Fulfilment &amp; Delivery</text><text class="mt" x="1030" y="636" text-anchor="middle">SUPPORTING · SOR · ORD</text></g><g class="node t-supporting" data-id="RET" tabindex="0" role="button" aria-label="Returns, supporting"><rect x="930.0" y="811.0" width="200" height="58" rx="7"/><text class="nm" x="1030" y="838" text-anchor="middle">Returns</text><text class="mt" x="1030" y="856" text-anchor="middle">SUPPORTING · ORD · SOR</text></g><g class="node t-supporting" data-id="CS" tabindex="0" role="button" aria-label="Customer Service, supporting"><rect x="630.0" y="811.0" width="200" height="58" rx="7"/><text class="nm" x="730" y="838" text-anchor="middle">Customer Service</text><text class="mt" x="730" y="856" text-anchor="middle">SUPPORTING · CS</text></g><g class="node t-supporting" data-id="REV" tabindex="0" role="button" aria-label="Ratings &amp; Reviews, supporting"><rect x="330.0" y="701.0" width="200" height="58" rx="7"/><text class="nm" x="430" y="728" text-anchor="middle">Ratings &amp; Reviews</text><text class="mt" x="430" y="746" text-anchor="middle">SUPPORTING · REV</text></g><g class="node t-supporting" data-id="SEL" tabindex="0" role="button" aria-label="Seller Management, supporting"><rect x="30.0" y="61.0" width="200" height="58" rx="7"/><text class="nm" x="130" y="88" text-anchor="middle">Seller Management</text><text class="mt" x="130" y="106" text-anchor="middle">SUPPORTING · SAP · ADM · SDB</text></g><g class="node t-supporting" data-id="SPO" tabindex="0" role="button" aria-label="Seller Payouts, supporting"><rect x="1230.0" y="591.0" width="200" height="58" rx="7"/><text class="nm" x="1330" y="618" text-anchor="middle">Seller Payouts</text><text class="mt" x="1330" y="636" text-anchor="middle">SUPPORTING · SPY</text></g><g class="node t-generic" data-id="IAM" tabindex="0" role="button" aria-label="Identity &amp; Access, generic"><rect x="30.0" y="981.0" width="200" height="58" rx="7"/><text class="nm" x="130" y="1008" text-anchor="middle">Identity &amp; Access</text><text class="mt" x="130" y="1026" text-anchor="middle">GENERIC · ACC · ADM</text></g><g class="node t-generic" data-id="PAYM" tabindex="0" role="button" aria-label="Payments, generic"><rect x="930.0" y="361.0" width="200" height="58" rx="7"/><text class="nm" x="1030" y="388" text-anchor="middle">Payments</text><text class="mt" x="1030" y="406" text-anchor="middle">GENERIC · PAY</text></g><g class="node t-generic" data-id="NTF" tabindex="0" role="button" aria-label="Notifications, generic"><rect x="930.0" y="981.0" width="200" height="58" rx="7"/><text class="nm" x="1030" y="1008" text-anchor="middle">Notifications</text><text class="mt" x="1030" y="1026" text-anchor="middle">GENERIC · NTF</text></g><g class="node t-generic" data-id="AUD" tabindex="0" role="button" aria-label="Audit, generic"><rect x="630.0" y="981.0" width="200" height="58" rx="7"/><text class="nm" x="730" y="1008" text-anchor="middle">Audit</text><text class="mt" x="730" y="1026" text-anchor="middle">GENERIC · ADM</text></g><g class="node t-generic" data-id="CFG" tabindex="0" role="button" aria-label="Store Configuration, generic"><rect x="330.0" y="981.0" width="200" height="58" rx="7"/><text class="nm" x="430" y="1008" text-anchor="middle">Store Configuration</text><text class="mt" x="430" y="1026" text-anchor="middle">GENERIC · CFG</text></g><g class="node t-external ext" data-id="PSP" tabindex="0" role="button" aria-label="Payment service provider, external"><rect x="1230.0" y="361.0" width="200" height="58" rx="7"/><text class="nm" x="1330" y="388" text-anchor="middle">Payment service provider</text><text class="mt" x="1330" y="406" text-anchor="middle">EXTERNAL</text></g><g class="node t-external ext" data-id="CAR" tabindex="0" role="button" aria-label="Carriers, external"><rect x="1230.0" y="811.0" width="200" height="58" rx="7"/><text class="nm" x="1330" y="838" text-anchor="middle">Carriers</text><text class="mt" x="1330" y="856" text-anchor="middle">EXTERNAL</text></g><g class="node t-external ext" data-id="EML" tabindex="0" role="button" aria-label="Email service, external"><rect x="1230.0" y="981.0" width="200" height="58" rx="7"/><text class="nm" x="1330" y="1008" text-anchor="middle">Email service</text><text class="mt" x="1330" y="1026" text-anchor="middle">EXTERNAL</text></g><g class="node t-external ext" data-id="TAX" tabindex="0" role="button" aria-label="Tax engine, if needed, external"><rect x="1230.0" y="141.0" width="200" height="58" rx="7"/><text class="nm" x="1330" y="168" text-anchor="middle">Tax engine, if needed</text><text class="mt" x="1330" y="186" text-anchor="middle">EXTERNAL</text></g></g></svg>
+      <figcaption>Twenty bounded contexts of HexCommerce coloured by type, with four external systems in dashed outline. Arrows point from the upstream context to the downstream one. The platform band relates to every context and is not drawn edge by edge; a few secondary links appear only in the register.</figcaption>
+    </figure>
+  </div>
+  <aside id="panel" aria-live="polite">
+    <div class="ph"><div><h3 id="panel-title">Reading the map</h3></div></div>
+    <p class="hint">Upstream and downstream describe whose model shapes whose, which is not always the direction data travels: Checkout sends claims to Deals & Offer Pricing, yet Deals is upstream because Checkout must work with the deal model as Deals defines it. The two partnerships and the shared kernel are the places where teams must plan changes together.</p>
+  </aside>
+</section>
+
+<div class="wrap">
+  <section id="contexts" aria-labelledby="ctx-h">
+    <div class="sechead">
+      <h2 id="ctx-h">Bounded contexts</h2>
+      <p>Each context below owns its model and its words. "Owns" lists the aggregates and rules that only it may change, with the BRD identifiers they come from.</p>
+    </div>
+    <div class="group" id="g-core"><div class="ghead"><h3><span class="sw t-core"></span>Core <span class="cnt">5</span></h3><p>Where HexCommerce competes. Build in-house, model richly, put the strongest people here.</p></div>
+<div class="cards"><article class="card t-core" id="ctx-DISC">
+  <header><h4>Search &amp; Discovery</h4><span class="tchip t-core">Core</span></header>
+  <p class="job">Help shoppers get from a need to the right item quickly, across the store&#x27;s catalogue and every approved seller&#x27;s listings (BO-01).</p>
+  <dl>
+    <dt>Owns</dt><dd><ul><li>Search index of sellable items: catalogue products and listings on sale</li><li>Keyword matching and relevance ranking (FR-CAT-005 to 007); suggestions after two characters (FR-CAT-008)</li><li>Filters with brand counts, six sort orders, the featured order and price bands (FR-CAT-012 to 021)</li><li>Popularity score (BR-CAT-001), related products (FR-PDP-011), shareable result sets (FR-CAT-026), recently viewed (FR-ACC-012)</li></ul></dd>
+    <dt>Language</dt><dd class="lang">relevance, facet, price band, featured order, popularity score, newest arrivals</dd>
+    <dt>Why core</dt><dd>Finding things fast across first- and third-party supply is how the marketplace wins visits, and the ranking rules are HexCommerce&#x27;s own. Read model built from other contexts&#x27; published events; it changes nothing upstream.</dd>
+    <dt>From the BRD</dt><dd class="src"><span>CAT · PDP</span><span>P01</span></dd>
+  </dl>
+  <button class="showmap" type="button" data-select="DISC">Show on map</button>
+</article><article class="card t-core" id="ctx-PRC">
+  <header><h4>Deals &amp; Offer Pricing</h4><span class="tchip t-core">Core</span></header>
+  <p class="job">Decide what each item sells for right now and how many units are offered at that price.</p>
+  <dl>
+    <dt>Owns</dt><dd><ul><li>SellerDeal SD-NNNNN: Scheduled, Live, Ended, derived from its dates (BR-SDL-007)</li><li>StoreDeal LD-NNNNN: Scheduled, Running, Ended, by date, time and units left (BR-STD-005)</li><li>Deal price, discount percentage and claimed units (BR-PRC-001, BR-SDL-006, BR-SDL-009, BR-STD-004)</li><li>Units on offer: the lower of stock and deal units left (BR-SDL-014, BR-CRT-002); 5-70% and no-overlap rules</li></ul></dd>
+    <dt>Language</dt><dd class="lang">deal units, claimed, units on offer, deal price, was price, paused, start early</dd>
+    <dt>Why core</dt><dd>Deals and savings raise basket value (BO-03), and the claim-counting and honest-deal rules (BO-07) are specific to this marketplace. One model with two owners: sellers run seller deals, merchandisers run store deals. The rules are nearly identical, so one context keeps the claim logic that checkout depends on in one place.</dd>
+    <dt>From the BRD</dt><dd class="src"><span>SDL · MKT · PRC</span><span>P10, P17, P29</span></dd>
+  </dl>
+  <button class="showmap" type="button" data-select="PRC">Show on map</button>
+</article><article class="card t-core" id="ctx-CHK">
+  <header><h4>Checkout</h4><span class="tchip t-core">Core</span></header>
+  <p class="job">Turn a basket into a paid order without losing the sale or overselling (BO-02).</p>
+  <dl>
+    <dt>Owns</dt><dd><ul><li>CheckoutSession: delivery address, card, delivery option, items and totals</li><li>Placement checks: units available (FR-CHK-008), card not expired (BR-ACC-010), not the shopper&#x27;s own listing (FR-CHK-023), signed in (FR-CHK-021)</li><li>Order totals: subtotal, delivery fee, tax, total (BR-PRC-002 to 007)</li><li>The place-order saga: reserve, authorise, create, all or nothing (FR-CHK-022, FR-PAY-002)</li></ul></dd>
+    <dt>Language</dt><dd class="lang">checkout, delivery option, order total, authorisation, buy now</dd>
+    <dt>Why core</dt><dd>Conversion is a business objective in its own right, and the all-or-nothing rule protects sellers and stock (R-01). Process manager. It holds no long-lived state once the order exists.</dd>
+    <dt>From the BRD</dt><dd class="src"><span>CHK</span><span>P03, and P02 for buy now</span></dd>
+  </dl>
+  <button class="showmap" type="button" data-select="CHK">Show on map</button>
+</article><article class="card t-core" id="ctx-ORD">
+  <header><h4>Ordering</h4><span class="tchip t-core">Core</span></header>
+  <p class="job">Hold the shopper&#x27;s order of record from placement to delivery, cancellation and refund.</p>
+  <dl>
+    <dt>Owns</dt><dd><ul><li>Order 204-NNNNNNN-NNNNNNN with its lines, and the snapshot taken at placement (BR-ORD-003)</li><li>Line status Processing, Shipped, Out for delivery, Delivered or Cancelled; order status derived from the lines (BR-ORD-008)</li><li>Cancellation before dispatch (BR-ORD-009, BR-ORD-011) and the refund due (BR-PRC-009)</li><li>Invoices (FR-ORD-008) and replacement lines at no charge (FR-ORD-023)</li></ul></dd>
+    <dt>Language</dt><dd class="lang">order, line, Processing, Shipped, dispatching party, invoice, refund due</dd>
+    <dt>Why core</dt><dd>This is where one shopper&#x27;s purchase from many sellers becomes one coherent order. Line-level status (Q-07) answers the &#x27;where is my order&#x27; contacts behind R-06. Owner of order status; other contexts report events to it.</dd>
+    <dt>From the BRD</dt><dd class="src"><span>ORD</span><span>P04, P23, P24</span></dd>
+  </dl>
+  <button class="showmap" type="button" data-select="ORD">Show on map</button>
+</article><article class="card t-core" id="ctx-LST">
+  <header><h4>Seller Listings</h4><span class="tchip t-core">Core</span></header>
+  <p class="job">Put approved sellers&#x27; products on sale alongside the store&#x27;s own (BO-05, BO-06).</p>
+  <dl>
+    <dt>Owns</dt><dd><ul><li>Listing SL-NNNNN: Draft, Active, Out of stock or Unpublished (BR-SLS-002, BR-SLS-003)</li><li>Units in stock, selling and was price, condition, up to six images (BR-SLS-001, 004, 006)</li><li>On sale means Active and the seller approved (FR-PDP-014, BR-SAP-004)</li><li>Stock reduced on sale, never below 0, Out of stock at 0 (BR-SLS-005)</li></ul></dd>
+    <dt>Language</dt><dd class="lang">listing, draft, publish, unpublish, condition, cover image, needs attention</dd>
+    <dt>Why core</dt><dd>Third-party supply is the marketplace&#x27;s growth engine. Listing status and stock form one invariant, so they stay in one aggregate. Publishes listing changes to every storefront context.</dd>
+    <dt>From the BRD</dt><dd class="src"><span>SLS</span><span>P09, P21</span></dd>
+  </dl>
+  <button class="showmap" type="button" data-select="LST">Show on map</button>
+</article></div></div><div class="group" id="g-supporting"><div class="ghead"><h3><span class="sw t-supporting"></span>Supporting <span class="cnt">10</span></h3><p>Specific to HexCommerce but not what makes it win. Build simply, or customise something off the shelf.</p></div>
+<div class="cards"><article class="card t-supporting" id="ctx-CAT">
+  <header><h4>Store Catalogue</h4><span class="tchip t-supporting">Supporting</span></header>
+  <p class="job">Keep the store&#x27;s own products, prices, stock and department structure current.</p>
+  <dl>
+    <dt>Owns</dt><dd><ul><li>CatalogueProduct: Unpublished, Published or Retired; price, list price, stock, features, specifications, options, keywords</li><li>First-published date for newest arrivals (FR-CTL-006, BR-CAT-004)</li><li>Department and sub-department taxonomy (FR-CAT-001, FR-CAT-002, FR-CTL-005)</li><li>Publication rules (BR-CTL-001) and the bulk initial load (FR-DAT-012)</li></ul></dd>
+    <dt>Language</dt><dd class="lang">catalogue product, publish, retire, list price, department</dd>
+    <dt>Why supporting</dt><dd>Necessary and specific to the store, but conventional product-information management. Owned by the catalogue team (R9). Upstream of the taxonomy everyone uses.</dd>
+    <dt>From the BRD</dt><dd class="src"><span>CTL · CAT</span><span>P30</span></dd>
+  </dl>
+  <button class="showmap" type="button" data-select="CAT">Show on map</button>
+</article><article class="card t-supporting" id="ctx-MKT">
+  <header><h4>Merchandising</h4><span class="tchip t-supporting">Supporting</span></header>
+  <p class="job">Shape what shoppers see first: promotions, featured selections and badges.</p>
+  <dl>
+    <dt>Owns</dt><dd><ul><li>Promotion: headline, description, destination, schedule and order (FR-MKT-001, FR-MKT-015)</li><li>FeaturedSelection: chosen products or a rule, and the number shown, such as Best sellers and Biggest savings (FR-MKT-006, 007, 019)</li><li>Badge assignments: Best Seller, Deal of the Day, Hex Choice (FR-MKT-014, FR-MKT-020)</li></ul></dd>
+    <dt>Language</dt><dd class="lang">promotion, destination, featured selection, badge</dd>
+    <dt>Why supporting</dt><dd>Scheduled content with light rules and no transactional invariants. Owned by the merchandising team (R8).</dd>
+    <dt>From the BRD</dt><dd class="src"><span>MKT</span><span>P29</span></dd>
+  </dl>
+  <button class="showmap" type="button" data-select="MKT">Show on map</button>
+</article><article class="card t-supporting" id="ctx-BSK">
+  <header><h4>Shopping Basket &amp; Lists</h4><span class="tchip t-supporting">Supporting</span></header>
+  <p class="job">Collect items to buy now or later, within the quantity limits.</p>
+  <dl>
+    <dt>Owns</dt><dd><ul><li>Basket with the 10-unit limit (BR-CRT-001) and flagged lines above units available (BR-CRT-004)</li><li>Saved for later and wish list, each item held once, newest first (BR-CRT-007)</li><li>Guest basket kept for the visit and merged on sign-in (FR-CRT-018)</li><li>Basket summary and free-delivery progress (FR-CRT-009, FR-CRT-010)</li></ul></dd>
+    <dt>Language</dt><dd class="lang">basket line, limit reached, saved for later, wish list, free-delivery progress</dd>
+    <dt>Why supporting</dt><dd>Standard e-commerce behaviour carrying HexCommerce&#x27;s limits. Shares its totals model with Checkout.</dd>
+    <dt>From the BRD</dt><dd class="src"><span>CRT</span><span>P02, P19</span></dd>
+  </dl>
+  <button class="showmap" type="button" data-select="BSK">Show on map</button>
+</article><article class="card t-supporting" id="ctx-CUS">
+  <header><h4>Customer Account</h4><span class="tchip t-supporting">Supporting</span></header>
+  <p class="job">Keep the shopper&#x27;s addresses and cards ready for checkout, and honour their data-protection rights.</p>
+  <dl>
+    <dt>Owns</dt><dd><ul><li>Customer profile: name, email, mobile, member-since date (FR-ACC-001, FR-ACC-023)</li><li>Address book: exactly one default, never the last removed, a selected delivery address (BR-ACC-001 to 004)</li><li>Card wallet of provider references, brand, last four and expiry (BR-ACC-005 to 008, BR-ACC-010)</li><li>Account closure and personal-data export (FR-DAT-010, FR-DAT-011)</li></ul></dd>
+    <dt>Language</dt><dd class="lang">account book, default address, selected delivery address, default card, expired</dd>
+    <dt>Why supporting</dt><dd>Needed by checkout; its rules are local and stable. Never stores a card number; Payments returns a reference.</dd>
+    <dt>From the BRD</dt><dd class="src"><span>ACC · DAT</span><span>P07, P16</span></dd>
+  </dl>
+  <button class="showmap" type="button" data-select="CUS">Show on map</button>
+</article><article class="card t-supporting" id="ctx-FUL">
+  <header><h4>Fulfilment &amp; Delivery</h4><span class="tchip t-supporting">Supporting</span></header>
+  <p class="job">Get every order line from dispatch to the doorstep, whoever dispatches it.</p>
+  <dl>
+    <dt>Owns</dt><dd><ul><li>SellerOrder SO-NNNNN: New, Dispatched, Delivered or Cancelled; buyer name and city only (BR-SOR-001, BR-SOR-005)</li><li>Store-item dispatch by the fulfilment team, with carrier and tracking reference (FR-ORD-015)</li><li>Shipment and its carrier events: out for delivery, delivered, failed attempt (FR-ORD-016)</li><li>The delivery promise: next-day cut-off, then +1, +2 or +4 days (BR-ORD-002)</li></ul></dd>
+    <dt>Language</dt><dd class="lang">dispatching party, seller order, dispatch, tracking reference, out for delivery, failed attempt</dd>
+    <dt>Why supporting</dt><dd>Essential operations, but the marketplace holds no seller stock (FR-DEF-013) and does no warehouse management (section 3.4). Two dispatching parties, one model: the fulfilment team for store items, the seller for marketplace items.</dd>
+    <dt>From the BRD</dt><dd class="src"><span>SOR · ORD</span><span>P11, P23</span></dd>
+  </dl>
+  <button class="showmap" type="button" data-select="FUL">Show on map</button>
+</article><article class="card t-supporting" id="ctx-RET">
+  <header><h4>Returns</h4><span class="tchip t-supporting">Supporting</span></header>
+  <p class="job">Take back delivered items within the returns policy and refund or replace them.</p>
+  <dl>
+    <dt>Owns</dt><dd><ul><li>ReturnRequest RT-NNNNN: Requested, Awaiting items, Received, Accepted or Rejected, Completed (BR-ORD-012)</li><li>Eligibility: Delivered and inside the returns window (BR-ORD-006)</li><li>Receipt, inspection and decision by the dispatching party (FR-ORD-022, FR-SOR-007)</li><li>The shopper&#x27;s choice of refund or replacement (FR-ORD-020)</li></ul></dd>
+    <dt>Language</dt><dd class="lang">return reason, awaiting items, inspection, refund or replacement</dd>
+    <dt>Why supporting</dt><dd>A policy-driven workflow. Who handles returns of seller items is still open (Q-39). Asks Ordering for the refund or replacement; never moves money itself.</dd>
+    <dt>From the BRD</dt><dd class="src"><span>ORD · SOR</span><span>P25</span></dd>
+  </dl>
+  <button class="showmap" type="button" data-select="RET">Show on map</button>
+</article><article class="card t-supporting" id="ctx-CS">
+  <header><h4>Customer Service</h4><span class="tchip t-supporting">Supporting</span></header>
+  <p class="job">Resolve shoppers&#x27; problems with ordered items within the 24-hour promise (BO-04).</p>
+  <dl>
+    <dt>Owns</dt><dd><ul><li>SupportIssue CS-NNNNN: Open, In review, Awaiting your reply, Resolved (BR-CS-001)</li><li>Message thread with internal notes never shown to the shopper (BR-CS-005)</li><li>Agent queue, assignment, unread flag and the 24-hour flag (FR-CS-015 to 020, BR-CS-003)</li><li>Nine support topics and help information (FR-CS-002, FR-CS-014)</li></ul></dd>
+    <dt>Language</dt><dd class="lang">issue, topic, thread, internal note, awaiting your reply, reopen</dd>
+    <dt>Why supporting</dt><dd>Matters for trust but behaves like any helpdesk. If a helpdesk product is bought, this becomes generic behind an ACL. Starts cancellations and returns on the shopper&#x27;s behalf through Ordering and Returns (FR-CS-021).</dd>
+    <dt>From the BRD</dt><dd class="src"><span>CS</span><span>P05, P15, P22</span></dd>
+  </dl>
+  <button class="showmap" type="button" data-select="CS">Show on map</button>
+</article><article class="card t-supporting" id="ctx-REV">
+  <header><h4>Ratings &amp; Reviews</h4><span class="tchip t-supporting">Supporting</span></header>
+  <p class="job">Trustworthy customer opinion of catalogue products (BO-07).</p>
+  <dl>
+    <dt>Owns</dt><dd><ul><li>Review: rating, headline, text; published or removed; Verified Purchase; edited date (BR-REV-001 to 003)</li><li>Helpful votes, one per shopper per review, never on one&#x27;s own (BR-REV-005)</li><li>Review reports and moderation decisions by support agents (BR-REV-007, FR-REV-014)</li><li>Rating summary: average, count, per-star distribution (BR-REV-004, BR-REV-006)</li></ul></dd>
+    <dt>Language</dt><dd class="lang">verified purchase, helpful vote, report reason, moderation, rating distribution</dd>
+    <dt>Why supporting</dt><dd>Builds trust with conventional mechanics. Covers catalogue products only (Q-13).</dd>
+    <dt>From the BRD</dt><dd class="src"><span>REV</span><span>P06, P18, P31</span></dd>
+  </dl>
+  <button class="showmap" type="button" data-select="REV">Show on map</button>
+</article><article class="card t-supporting" id="ctx-SEL">
+  <header><h4>Seller Management</h4><span class="tchip t-supporting">Supporting</span></header>
+  <p class="job">Vet businesses that apply to sell, and hold the business record of approved sellers.</p>
+  <dl>
+    <dt>Owns</dt><dd><ul><li>SellerApplication SA-NNNNN: Pending, Approved or Rejected; a decided application can return to Pending (BR-SAP-003)</li><li>Reapplication as a new application, with history kept (FR-SAP-015)</li><li>SellerProfile: business details, Verified status, seller-since date (BR-SAP-005, BR-SAP-006, FR-SDB-005 to 007)</li><li>The seller-tools gate (FR-SAP-010) and the conflict-of-interest check (FR-ADM-015)</li></ul></dd>
+    <dt>Language</dt><dd class="lang">applicant, application, approve, reject, return to Pending, Verified, seller since</dd>
+    <dt>Why supporting</dt><dd>Vetting protects the marketplace (BO-05), but it is a controlled workflow rather than a differentiator. Its approval decision is broadcast to every seller-facing context.</dd>
+    <dt>From the BRD</dt><dd class="src"><span>SAP · ADM · SDB</span><span>P08, P13, P14</span></dd>
+  </dl>
+  <button class="showmap" type="button" data-select="SEL">Show on map</button>
+</article><article class="card t-supporting" id="ctx-SPO">
+  <header><h4>Seller Payouts</h4><span class="tchip t-supporting">Supporting</span></header>
+  <p class="job">Pay sellers what they are owed for delivered sales, net of referral fees and returns.</p>
+  <dl>
+    <dt>Owns</dt><dd><ul><li>PayoutAccount: Awaiting verification, Verified or Rejected; masked; changes need re-authentication (FR-SPY-001 to 003)</li><li>Referral-fee schedule by department, 12% by default (BR-SPY-001, FR-SPY-004)</li><li>Payout statements and payout runs approved by finance; payouts held without a verified account (BR-SPY-002, BR-SPY-003)</li><li>Seller earnings: revenue, units sold, estimated payout (BR-SOR-002 to 004)</li></ul></dd>
+    <dt>Language</dt><dd class="lang">payout, referral fee, payout statement, payout run, held, verified account</dd>
+    <dt>Why supporting</dt><dd>The take rate matters commercially, but the rules are finance-controlled bookkeeping. Owned with finance (R10).</dd>
+    <dt>From the BRD</dt><dd class="src"><span>SPY</span><span>P27, P28</span></dd>
+  </dl>
+  <button class="showmap" type="button" data-select="SPO">Show on map</button>
+</article></div></div><div class="group" id="g-generic"><div class="ghead"><h3><span class="sw t-generic"></span>Generic <span class="cnt">5</span></h3><p>Problems every business has. Buy or adopt, and conform to the product&#x27;s model.</p></div>
+<div class="cards"><article class="card t-generic" id="ctx-IAM">
+  <header><h4>Identity &amp; Access</h4><span class="tchip t-generic">Generic</span></header>
+  <p class="job">Prove who someone is and what they may do.</p>
+  <dl>
+    <dt>Owns</dt><dd><ul><li>Customer registration, sign-in by email or mobile, lock-out, reset links, sign-out and inactivity timeout (BR-ACC-011 to 013, FR-ACC-020)</li><li>Staff users with roles and multi-factor sign-in (FR-ADM-011, FR-ADM-012)</li><li>Role check for every back-office capability (FR-ADM-010)</li></ul></dd>
+    <dt>Language</dt><dd class="lang">session, sign in, lock-out, staff user, role</dd>
+    <dt>Why generic</dt><dd>A solved problem: adopt an identity provider and conform to it. Upstream of every context.</dd>
+    <dt>From the BRD</dt><dd class="src"><span>ACC · ADM</span><span>P12, P20, P26</span></dd>
+  </dl>
+  <button class="showmap" type="button" data-select="IAM">Show on map</button>
+</article><article class="card t-generic" id="ctx-PAYM">
+  <header><h4>Payments</h4><span class="tchip t-generic">Generic</span></header>
+  <p class="job">Move money through the payment service provider and record every movement.</p>
+  <dl>
+    <dt>Owns</dt><dd><ul><li>Card safekeeping references (FR-PAY-001)</li><li>Authorisation, capture per line on dispatch, release and refund (FR-PAY-002 to 005)</li><li>Seller payout transfers (FR-SPY-006)</li><li>Payment transaction ledger: type, amount, date, outcome, provider reference (FR-PAY-006)</li></ul></dd>
+    <dt>Language</dt><dd class="lang">authorisation, capture, release, refund, provider reference</dd>
+    <dt>Why generic</dt><dd>The provider does the hard part. This context is the anti-corruption layer that keeps card data out of the marketplace (NFR-SEC-010). Gateway context.</dd>
+    <dt>From the BRD</dt><dd class="src"><span>PAY</span><span>P03, P07, P23 to P25, P28</span></dd>
+  </dl>
+  <button class="showmap" type="button" data-select="PAYM">Show on map</button>
+</article><article class="card t-generic" id="ctx-NTF">
+  <header><h4>Notifications</h4><span class="tchip t-generic">Generic</span></header>
+  <p class="job">Tell shoppers, sellers and applicants by email what they need to know.</p>
+  <dl>
+    <dt>Owns</dt><dd><ul><li>Notification types, recipients and send log (FR-NTF-001 to 010)</li><li>Content restrictions: no full card numbers, passwords or buyer contact details beyond name and city (FR-NTF-011)</li></ul></dd>
+    <dt>Language</dt><dd class="lang">notification, recipient</dd>
+    <dt>Why generic</dt><dd>Subscribes to other contexts&#x27; events; the email service sits behind an ACL. Downstream of every context&#x27;s published events.</dd>
+    <dt>From the BRD</dt><dd class="src"><span>NTF</span><span>Most processes</span></dd>
+  </dl>
+  <button class="showmap" type="button" data-select="NTF">Show on map</button>
+</article><article class="card t-generic" id="ctx-AUD">
+  <header><h4>Audit</h4><span class="tchip t-generic">Generic</span></header>
+  <p class="job">Keep a tamper-evident record of every back-office change.</p>
+  <dl>
+    <dt>Owns</dt><dd><ul><li>Audit record: who, what, when, values before and after (FR-ADM-013)</li><li>Search and export (FR-ADM-014); retention of at least 7 years (NFR-SEC-012)</li></ul></dd>
+    <dt>Language</dt><dd class="lang">audit record</dd>
+    <dt>Why generic</dt><dd>An append-only log fed by events from every back-office context. Downstream of every back-office context.</dd>
+    <dt>From the BRD</dt><dd class="src"><span>ADM</span><span>P26 and every back-office process</span></dd>
+  </dl>
+  <button class="showmap" type="button" data-select="AUD">Show on map</button>
+</article><article class="card t-generic" id="ctx-CFG">
+  <header><h4>Store Configuration</h4><span class="tchip t-generic">Generic</span></header>
+  <p class="job">Let the store operator re-brand and re-parameterise the store without development work (BO-08).</p>
+  <dl>
+    <dt>Owns</dt><dd><ul><li>Brand, currency, locale and time zone (FR-CFG-001, 002, 005)</li><li>Free-delivery threshold 35.00, delivery fee 5.99, tax rate 8.75%, next-day cut-off 23:00, returns window 30 days (FR-CFG-003, 004, 007 to 009)</li><li>Fallback to defaults (FR-CFG-006) and the business date (BR-SYS-001)</li></ul></dd>
+    <dt>Language</dt><dd class="lang">setting, default, business date</dd>
+    <dt>Why generic</dt><dd>A settings service. The rules that use these values stay in their own contexts. Upstream of every context.</dd>
+    <dt>From the BRD</dt><dd class="src"><span>CFG</span><span>All</span></dd>
+  </dl>
+  <button class="showmap" type="button" data-select="CFG">Show on map</button>
+</article></div></div><div class="group" id="g-external"><div class="ghead"><h3><span class="sw t-external"></span>External systems <span class="cnt">4</span></h3><p>Outside the marketplace. Each is reached through an anti-corruption layer in the context that uses it.</p></div><ul class="extlist"><li><strong>Payment service provider</strong> Card safekeeping, authorisation, capture, release, refunds and seller payouts (section 11.1).</li><li><strong>Carriers</strong> Report delivery progress against tracking references (FR-ORD-016).</li><li><strong>Email service</strong> Delivers notification emails (FR-NTF-001 to 011).</li><li><strong>Tax engine, if needed</strong> Tax calculation if rates vary by region or product; depends on Q-03.</li></ul></div>
+  </section>
+
+  <section id="patterns" aria-labelledby="pat-h">
+    <div class="sechead">
+      <h2 id="pat-h">Relationship patterns</h2>
+      <p>The integration patterns used on the map, from tightest coupling to none.</p>
+    </div>
+    <dl class="patterns"><div><dt><span class="pchip p-ohs">OHS/PL ▸ CF</span></dt><dd><strong>Open host service, published language ▸ conformist.</strong> The upstream publishes a stable protocol or event language for many consumers; the downstream adopts it as is.</dd></div><div><dt><span class="pchip p-ohs1">OHS ▸ CF</span></dt><dd><strong>Open host service ▸ conformist.</strong> A shared service API that consumers adopt as offered.</dd></div><div><dt><span class="pchip p-cs">C/S</span></dt><dd><strong>Customer–supplier.</strong> The upstream (supplier) plans for what the downstream (customer) needs; both teams negotiate the interface.</dd></div><div><dt><span class="pchip p-p">Partnership</span></dt><dd><strong>Partnership.</strong> Two contexts succeed or fail together, so their teams plan and release changes jointly.</dd></div><div><dt><span class="pchip p-sk">Shared kernel</span></dt><dd><strong>Shared kernel.</strong> A small model owned jointly by two teams; neither changes it alone.</dd></div><div><dt><span class="pchip p-acl">ACL</span></dt><dd><strong>Anti-corruption layer.</strong> The downstream translates an external model into its own terms so the outside vocabulary stops at the boundary.</dd></div><div><dt><span class="pchip p-sw">Separate ways</span></dt><dd><strong>Separate ways.</strong> No integration, by decision.</dd></div></dl>
+  </section>
+
+  <section id="relationships" aria-labelledby="rel-h">
+    <div class="sechead">
+      <h2 id="rel-h">Relationship register</h2>
+      <p>All 45 relationships with what crosses each boundary. Rows marked "platform band" or "register only" are not drawn as separate lines on the map.</p>
+    </div>
+    <div class="tablewrap">
+      <table class="reg">
+        <thead><tr><th>ID</th><th>Upstream → downstream</th><th>Pattern</th><th>What crosses the boundary</th><th>BRD</th></tr></thead>
+        <tbody><tr data-u="CAT" data-d="LST"><td class="rid">R01</td>
+<td class="pair"><span>Store Catalogue</span> <span class="ar">→</span> <span>Seller Listings</span></td>
+<td><span class="pchip p-ohs">OHS/PL ▸ CF</span></td>
+<td>Department and sub-department taxonomy that listings are classified by.</td><td class="refs">FR-SLS-004, FR-SLS-005, FR-CTL-005</td></tr><tr data-u="SEL" data-d="LST"><td class="rid">R02</td>
+<td class="pair"><span>Seller Management</span> <span class="ar">→</span> <span>Seller Listings</span></td>
+<td><span class="pchip p-ohs">OHS/PL ▸ CF</span></td>
+<td>Approval puts a seller&#x27;s listings on sale; rejection or return to Pending withdraws them. Business-name changes follow.</td><td class="refs">FR-ADM-008, FR-ADM-009, BR-SAP-004, FR-SDB-007</td></tr><tr data-u="CAT" data-d="PRC"><td class="rid">R03</td>
+<td class="pair"><span>Store Catalogue</span> <span class="ar">→</span> <span>Deals &amp; Offer Pricing</span></td>
+<td><span class="pchip p-ohs">OHS/PL ▸ CF</span></td>
+<td>Product price, list price and units in stock for store deals.</td><td class="refs">BR-STD-002, BR-STD-004</td></tr><tr data-u="LST" data-d="PRC"><td class="rid">R04</td>
+<td class="pair"><span>Seller Listings</span> <span class="ar">→</span> <span>Deals &amp; Offer Pricing</span></td>
+<td><span class="pchip p-ohs">OHS/PL ▸ CF</span></td>
+<td>Listing price, stock and on-sale state; removing a listing removes its deals.</td><td class="refs">BR-SDL-002, BR-SDL-008, BR-SDL-012, BR-SDL-014, BR-SLS-007</td></tr><tr data-u="CAT" data-d="MKT"><td class="rid">R05</td>
+<td class="pair"><span>Store Catalogue</span> <span class="ar">→</span> <span>Merchandising</span></td>
+<td><span class="pchip p-ohs">OHS/PL ▸ CF</span></td>
+<td>Catalogue products that can carry badges or be featured.</td><td class="refs">FR-MKT-014, FR-MKT-019, FR-MKT-020</td></tr><tr data-u="CAT" data-d="DISC"><td class="rid">R06</td>
+<td class="pair"><span>Store Catalogue</span> <span class="ar">→</span> <span>Search &amp; Discovery</span></td>
+<td><span class="pchip p-ohs">OHS/PL ▸ CF</span></td>
+<td>Published products with searchable text, department and first-published date.</td><td class="refs">FR-CAT-005, FR-CTL-006, BR-CAT-004</td></tr><tr data-u="LST" data-d="DISC"><td class="rid">R07</td>
+<td class="pair"><span>Seller Listings</span> <span class="ar">→</span> <span>Search &amp; Discovery</span></td>
+<td><span class="pchip p-ohs">OHS/PL ▸ CF</span></td>
+<td>Listings on sale, with seller name and condition.</td><td class="refs">FR-SLS-020, FR-CAT-027, FR-CAT-034, FR-PDP-012</td></tr><tr data-u="PRC" data-d="DISC"><td class="rid">R08</td>
+<td class="pair"><span>Deals &amp; Offer Pricing</span> <span class="ar">→</span> <span>Search &amp; Discovery</span></td>
+<td><span class="pchip p-ohs">OHS/PL ▸ CF</span></td>
+<td>Current price, discount, deal status, time remaining and share claimed.</td><td class="refs">FR-CAT-031, FR-MKT-005, FR-MKT-010, FR-MKT-012, FR-PDP-013</td></tr><tr data-u="MKT" data-d="DISC"><td class="rid">R09</td>
+<td class="pair"><span>Merchandising</span> <span class="ar">→</span> <span>Search &amp; Discovery</span></td>
+<td><span class="pchip p-ohs">OHS/PL ▸ CF</span></td>
+<td>Badges for the featured order, promotions and featured selections.</td><td class="refs">FR-CAT-020, FR-MKT-001, FR-MKT-006, FR-MKT-007</td></tr><tr data-u="REV" data-d="DISC"><td class="rid">R10</td>
+<td class="pair"><span>Ratings &amp; Reviews</span> <span class="ar">→</span> <span>Search &amp; Discovery</span></td>
+<td><span class="pchip p-ohs">OHS/PL ▸ CF</span></td>
+<td>Average rating and rating count for the rating filter, sorts and popularity score.</td><td class="refs">FR-CAT-016, FR-CAT-030, BR-CAT-001</td></tr><tr data-u="PRC" data-d="BSK"><td class="rid">R11</td>
+<td class="pair"><span>Deals &amp; Offer Pricing</span> <span class="ar">→</span> <span>Shopping Basket &amp; Lists</span></td>
+<td><span class="pchip p-cs">C/S</span></td>
+<td>Line price and units available: stock, capped by deal units left.</td><td class="refs">BR-CRT-002, FR-CRT-008</td></tr><tr data-u="BSK" data-d="CHK"><td class="rid">R12</td>
+<td class="pair"><span>Shopping Basket &amp; Lists</span> <span class="ar">⇄</span> <span>Checkout</span></td>
+<td><span class="pchip p-sk">Shared kernel</span></td>
+<td>One jointly owned model of totals and limits: delivery fee and threshold, tax, rounding, the units-available check. Checkout reads the basket and empties it on placement.</td><td class="refs">BR-PRC-002 to 006, BR-CRT-005, FR-CRT-009, FR-CHK-013</td></tr><tr data-u="CUS" data-d="CHK"><td class="rid">R13</td>
+<td class="pair"><span>Customer Account</span> <span class="ar">→</span> <span>Checkout</span></td>
+<td><span class="pchip p-cs">C/S</span></td>
+<td>Selected delivery address, default card and cards not expired; either can be added during checkout.</td><td class="refs">FR-CHK-002, FR-CHK-003, FR-CHK-016, BR-ACC-010</td></tr><tr data-u="PRC" data-d="CHK"><td class="rid">R14</td>
+<td class="pair"><span>Deals &amp; Offer Pricing</span> <span class="ar">→</span> <span>Checkout</span></td>
+<td><span class="pchip p-cs">C/S</span></td>
+<td>Deal price at placement, and claiming deal units.</td><td class="refs">FR-CHK-012, BR-SDL-009, BR-STD-004</td></tr><tr data-u="CAT" data-d="CHK"><td class="rid">R15</td>
+<td class="pair"><span>Store Catalogue</span> <span class="ar">→</span> <span>Checkout</span></td>
+<td><span class="pchip p-cs">C/S</span></td>
+<td>Reserve and reduce product stock at placement; restore it for cancellations and accepted returns.</td><td class="refs">FR-CHK-011, BR-ORD-011, FR-ORD-023</td></tr><tr data-u="LST" data-d="CHK"><td class="rid">R16</td>
+<td class="pair"><span>Seller Listings</span> <span class="ar">→</span> <span>Checkout</span></td>
+<td><span class="pchip p-cs">C/S</span></td>
+<td>Reserve and reduce listing stock (Out of stock at zero); the listing&#x27;s seller for the own-listing check.</td><td class="refs">FR-CHK-011, BR-SLS-005, FR-CHK-023</td></tr><tr data-u="CHK" data-d="ORD"><td class="rid">R17</td>
+<td class="pair"><span>Checkout</span> <span class="ar">⇄</span> <span>Ordering</span></td>
+<td><span class="pchip p-p">Partnership</span></td>
+<td>The order exists only when authorisation, stock and deal claims all succeed; prices, address, card and totals are captured at placement.</td><td class="refs">FR-CHK-022, FR-PAY-002, FR-CHK-019, FR-CHK-020, BR-ORD-003</td></tr><tr data-u="ORD" data-d="FUL"><td class="rid">R18</td>
+<td class="pair"><span>Ordering</span> <span class="ar">⇄</span> <span>Fulfilment &amp; Delivery</span></td>
+<td><span class="pchip p-p">Partnership</span></td>
+<td>A placed order creates seller orders and store dispatch work; dispatch, carrier and delivery events move order lines; cancellations flow both ways.</td><td class="refs">FR-CHK-010, FR-ORD-013, FR-ORD-014, FR-ORD-019, FR-SOR-006</td></tr><tr data-u="FUL" data-d="CHK"><td class="rid">R19</td>
+<td class="pair"><span>Fulfilment &amp; Delivery</span> <span class="ar">→</span> <span>Checkout</span></td>
+<td><span class="pchip p-ohs1">OHS ▸ CF</span></td>
+<td>Delivery options with expected dates: next-day cut-off, then +1, +2 or +4 days.</td><td class="refs">BR-ORD-002, FR-CHK-005, FR-CHK-018</td></tr><tr data-u="PAYM" data-d="CHK"><td class="rid">R20</td>
+<td class="pair"><span>Payments</span> <span class="ar">→</span> <span>Checkout</span></td>
+<td><span class="pchip p-ohs1">OHS ▸ CF</span></td>
+<td>Authorise the order total; a decline gives no issuer reason.</td><td class="refs">FR-PAY-002, FR-PAY-003</td></tr><tr data-u="PAYM" data-d="ORD"><td class="rid">R21</td>
+<td class="pair"><span>Payments</span> <span class="ar">→</span> <span>Ordering</span></td>
+<td><span class="pchip p-ohs1">OHS ▸ CF</span></td>
+<td>Capture per line on dispatch, release on cancellation, refunds; every movement recorded against the order.</td><td class="refs">FR-PAY-004, FR-PAY-005, FR-PAY-006</td></tr><tr data-u="PAYM" data-d="CUS"><td class="rid">R22</td>
+<td class="pair"><span>Payments</span> <span class="ar">→</span> <span>Customer Account</span></td>
+<td><span class="pchip p-ohs1">OHS ▸ CF</span></td>
+<td>Card safekeeping: only the provider reference, brand, last four and expiry come back.</td><td class="refs">FR-PAY-001, BR-ACC-008</td></tr><tr data-u="PAYM" data-d="SPO"><td class="rid">R23</td>
+<td class="pair"><span>Payments</span> <span class="ar">→</span> <span>Seller Payouts</span></td>
+<td><span class="pchip p-ohs1">OHS ▸ CF</span></td>
+<td>Pay approved payouts into verified accounts, with payment date and reference.</td><td class="refs">FR-SPY-006</td></tr><tr data-u="ORD" data-d="RET"><td class="rid">R24</td>
+<td class="pair"><span>Ordering</span> <span class="ar">→</span> <span>Returns</span></td>
+<td><span class="pchip p-cs">C/S</span></td>
+<td>Eligibility (Delivered, inside the window, who dispatched); refund of the amount paid, or a replacement line.</td><td class="refs">BR-ORD-006, BR-PRC-009, FR-ORD-023</td></tr><tr data-u="ORD" data-d="CS"><td class="rid">R25</td>
+<td class="pair"><span>Ordering</span> <span class="ar">→</span> <span>Customer Service</span></td>
+<td><span class="pchip p-cs">C/S</span></td>
+<td>Items eligible for an issue; the order with its payment and fulfilment history for agents; cancelling on the shopper&#x27;s behalf.</td><td class="refs">BR-ORD-007, FR-CS-001, FR-CS-017, FR-CS-021</td></tr><tr data-u="RET" data-d="CS"><td class="rid">R26</td>
+<td class="pair"><span>Returns</span> <span class="ar">→</span> <span>Customer Service</span></td>
+<td><span class="pchip p-cs">C/S</span></td>
+<td>Starting a return from an issue; return history for agents.</td><td class="refs">FR-CS-021, FR-CS-017</td></tr><tr data-u="ORD" data-d="REV"><td class="rid">R27</td>
+<td class="pair"><span>Ordering</span> <span class="ar">→</span> <span>Ratings &amp; Reviews</span></td>
+<td><span class="pchip p-ohs">OHS/PL ▸ CF</span></td>
+<td>Purchases that earn the Verified Purchase label; cancelled lines do not count.</td><td class="refs">FR-REV-006, BR-ORD-007</td></tr><tr data-u="FUL" data-d="SPO"><td class="rid">R28</td>
+<td class="pair"><span>Fulfilment &amp; Delivery</span> <span class="ar">→</span> <span>Seller Payouts</span></td>
+<td><span class="pchip p-ohs">OHS/PL ▸ CF</span></td>
+<td>Seller orders delivered or cancelled, with delivery dates.</td><td class="refs">BR-SOR-002, BR-SOR-003, BR-SPY-002</td></tr><tr data-u="RET" data-d="SPO"><td class="rid">R29</td>
+<td class="pair"><span>Returns</span> <span class="ar">→</span> <span>Seller Payouts</span></td>
+<td><span class="pchip p-ohs">OHS/PL ▸ CF</span></td>
+<td>Accepted returns of seller items, deducted from revenue and payout.</td><td class="refs">BR-SOR-002, BR-SPY-002</td></tr><tr data-u="SEL" data-d="SPO"><td class="rid">R30</td>
+<td class="pair"><span>Seller Management</span> <span class="ar">→</span> <span>Seller Payouts</span></td>
+<td><span class="pchip p-ohs">OHS/PL ▸ CF</span></td>
+<td>An approved seller becomes a payee; the business name pre-fills the account holder.</td><td class="refs">FR-SPY-001, BR-SAP-005</td></tr><tr data-u="PSP" data-d="PAYM"><td class="rid">R31</td>
+<td class="pair"><span>Payment service provider</span> <span class="ar">→</span> <span>Payments</span></td>
+<td><span class="pchip p-acl">ACL</span></td>
+<td>Provider API for card safekeeping, payments, refunds and payouts, translated into the marketplace&#x27;s terms.</td><td class="refs">FR-PAY-001 to 006, NFR-SEC-010</td></tr><tr data-u="CAR" data-d="FUL"><td class="rid">R32</td>
+<td class="pair"><span>Carriers</span> <span class="ar">→</span> <span>Fulfilment &amp; Delivery</span></td>
+<td><span class="pchip p-acl">ACL</span></td>
+<td>Carrier delivery events, translated into out for delivery, delivered and failed attempt.</td><td class="refs">FR-ORD-016</td></tr><tr data-u="EML" data-d="NTF"><td class="rid">R33</td>
+<td class="pair"><span>Email service</span> <span class="ar">→</span> <span>Notifications</span></td>
+<td><span class="pchip p-acl">ACL</span></td>
+<td>Email provider API behind an adapter, so the provider can change.</td><td class="refs">FR-NTF-001 to 011</td></tr><tr data-u="TAX" data-d="CHK"><td class="rid">R34</td>
+<td class="pair"><span>Tax engine, if needed</span> <span class="ar">→</span> <span>Checkout</span></td>
+<td><span class="pchip p-acl">ACL</span></td>
+<td>Tax calculation, only if rates vary by region or product.</td><td class="refs">BR-PRC-003, Q-03</td></tr><tr data-u="IAM" data-d="*"><td class="rid">R35</td>
+<td class="pair"><span>Identity &amp; Access</span> <span class="ar">→</span> <span>Every context</span><span class="tag">platform band</span></td>
+<td><span class="pchip p-ohs1">OHS ▸ CF</span></td>
+<td>Who is signed in, staff roles, sessions. Sign-in also merges the guest basket and registration creates the customer account.</td><td class="refs">FR-ADM-010, FR-ACC-022, FR-CRT-018</td></tr><tr data-u="CFG" data-d="*"><td class="rid">R36</td>
+<td class="pair"><span>Store Configuration</span> <span class="ar">→</span> <span>Every context</span><span class="tag">platform band</span></td>
+<td><span class="pchip p-ohs">OHS/PL ▸ CF</span></td>
+<td>Delivery fee and threshold, tax rate, cut-off, returns window, currency, locale and business date, read by Basket, Checkout, Fulfilment, Returns, Payouts and Discovery.</td><td class="refs">FR-CFG-001 to 009, BR-SYS-001</td></tr><tr data-u="*" data-d="NTF"><td class="rid">R37</td>
+<td class="pair"><span>Every context</span> <span class="ar">→</span> <span>Notifications</span><span class="tag">platform band</span></td>
+<td><span class="pchip p-ohs">OHS/PL ▸ CF</span></td>
+<td>Published domain events that trigger emails: order placed, dispatched, cancelled, return outcome, issue reply, application decision, payout paid.</td><td class="refs">FR-NTF-001 to 010</td></tr><tr data-u="*" data-d="AUD"><td class="rid">R38</td>
+<td class="pair"><span>Every context</span> <span class="ar">→</span> <span>Audit</span><span class="tag">platform band</span></td>
+<td><span class="pchip p-ohs">OHS/PL ▸ CF</span></td>
+<td>Every back-office change: decisions, refunds, moderation, payout approvals, roles, configuration.</td><td class="refs">FR-ADM-013</td></tr><tr data-u="SEL" data-d="PRC"><td class="rid">R39</td>
+<td class="pair"><span>Seller Management</span> <span class="ar">→</span> <span>Deals &amp; Offer Pricing</span><span class="tag">register only</span></td>
+<td><span class="pchip p-ohs1">OHS ▸ CF</span></td>
+<td>Seller-tools gate: only approved sellers manage deals.</td><td class="refs">FR-SAP-010, FR-SAP-011</td></tr><tr data-u="SEL" data-d="FUL"><td class="rid">R40</td>
+<td class="pair"><span>Seller Management</span> <span class="ar">→</span> <span>Fulfilment &amp; Delivery</span><span class="tag">register only</span></td>
+<td><span class="pchip p-ohs1">OHS ▸ CF</span></td>
+<td>Seller-tools gate: only approved sellers work seller orders.</td><td class="refs">FR-SAP-010, FR-SAP-011</td></tr><tr data-u="FUL" data-d="BSK"><td class="rid">R41</td>
+<td class="pair"><span>Fulfilment &amp; Delivery</span> <span class="ar">→</span> <span>Shopping Basket &amp; Lists</span><span class="tag">register only</span></td>
+<td><span class="pchip p-ohs1">OHS ▸ CF</span></td>
+<td>Delivery promise for each basket line&#x27;s estimated arrival.</td><td class="refs">FR-CRT-002, BR-ORD-002</td></tr><tr data-u="FUL" data-d="DISC"><td class="rid">R42</td>
+<td class="pair"><span>Fulfilment &amp; Delivery</span> <span class="ar">→</span> <span>Search &amp; Discovery</span><span class="tag">register only</span></td>
+<td><span class="pchip p-ohs1">OHS ▸ CF</span></td>
+<td>Delivery promise for results and item details.</td><td class="refs">FR-CAT-033, FR-PDP-007</td></tr><tr data-u="CUS" data-d="DISC"><td class="rid">R43</td>
+<td class="pair"><span>Customer Account</span> <span class="ar">→</span> <span>Search &amp; Discovery</span><span class="tag">register only</span></td>
+<td><span class="pchip p-cs">C/S</span></td>
+<td>City and postcode of the selected delivery address, wherever delivery estimates are given.</td><td class="refs">FR-ACC-007</td></tr><tr data-u="CAT" data-d="SPO"><td class="rid">R44</td>
+<td class="pair"><span>Store Catalogue</span> <span class="ar">→</span> <span>Seller Payouts</span><span class="tag">register only</span></td>
+<td><span class="pchip p-ohs">OHS/PL ▸ CF</span></td>
+<td>Departments that the referral-fee schedule is set by.</td><td class="refs">FR-SPY-004, BR-SPY-001</td></tr><tr data-u="REV" data-d="LST"><td class="rid">R45</td>
+<td class="pair"><span>Ratings &amp; Reviews</span> <span class="ar">✕</span> <span>Seller Listings</span><span class="tag">register only</span></td>
+<td><span class="pchip p-sw">Separate ways</span></td>
+<td>No link by decision: reviews cover catalogue products only and listings carry no rating.</td><td class="refs">Q-13, BR-SLS-008</td></tr></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="language" aria-labelledby="lang-h">
+    <div class="sechead">
+      <h2 id="lang-h">Where the language splits</h2>
+      <p>The same word means different things on either side of a boundary. These shifts are the main evidence for where the boundaries sit.</p>
+    </div>
+    <div class="tablewrap">
+      <table class="langtbl"><thead><tr><th>Term</th><th>Meaning by context</th></tr></thead><tbody><tr><th scope="row">Item on sale</th><td><ul><li><span class="where">Store Catalogue</span> a catalogue product, Published</li><li><span class="where">Seller Listings</span> a listing, Active, from an approved seller</li><li><span class="where">Search &amp; Discovery</span> a result of either kind</li><li><span class="where">Ordering</span> a line whose title and price were captured at placement</li></ul></td></tr><tr><th scope="row">Order</th><td><ul><li><span class="where">Ordering</span> the shopper&#x27;s order 204-NNNNNNN-NNNNNNN, status derived from its lines</li><li><span class="where">Fulfilment &amp; Delivery</span> a seller order SO-NNNNN for one marketplace item, showing only buyer name and city</li></ul></td></tr><tr><th scope="row">Deal</th><td><ul><li><span class="where">Deals &amp; Offer Pricing</span> a seller deal SD-NNNNN runs by date and is Live; a store deal LD-NNNNN runs by date and time and is Running</li></ul></td></tr><tr><th scope="row">Stock</th><td><ul><li><span class="where">Store Catalogue, Seller Listings</span> units in stock</li><li><span class="where">Deals, Basket, Checkout</span> units available: stock capped by deal units left</li><li><span class="where">Search &amp; Discovery</span> stock status: unavailable at 0, low at 1 to 10, in stock above 10</li></ul></td></tr><tr><th scope="row">Seller</th><td><ul><li><span class="where">Seller Management</span> an applicant, then a Verified seller</li><li><span class="where">Fulfilment, Returns</span> a dispatching party</li><li><span class="where">Seller Payouts</span> a payee with a payout account</li><li><span class="where">Search &amp; Discovery</span> the &#x27;sold by&#x27; name</li></ul></td></tr><tr><th scope="row">Account</th><td><ul><li><span class="where">Identity &amp; Access</span> credentials, sessions, staff users</li><li><span class="where">Customer Account</span> the account book of addresses and cards</li><li><span class="where">Seller Payouts</span> a bank account to be paid into</li></ul></td></tr><tr><th scope="row">Delivered</th><td><ul><li><span class="where">Ordering</span> a line status</li><li><span class="where">Fulfilment &amp; Delivery</span> a seller-order status</li><li><span class="where">Returns</span> starts the returns window</li><li><span class="where">Seller Payouts</span> starts the hold before a sale is paid out</li></ul></td></tr><tr><th scope="row">Refund</th><td><ul><li><span class="where">Ordering</span> the amount due (BR-PRC-009)</li><li><span class="where">Payments</span> a money movement through the provider</li><li><span class="where">Seller Payouts</span> a deduction from the seller&#x27;s payout</li></ul></td></tr></tbody></table>
+    </div>
+  </section>
+
+  <section id="notes" aria-labelledby="notes-h">
+    <div class="sechead">
+      <h2 id="notes-h">Design notes</h2>
+      <p>Consequences of these boundaries for the solution design that follows the BRD.</p>
+    </div>
+    <div class="notes"><article class="note"><h4>Order placement crosses five contexts</h4><p>FR-CHK-022 wants the order, its seller orders, the stock reductions and the deal claims recorded together or not at all. Across contexts, run it as a saga owned by Checkout: reserve stock in Store Catalogue and Seller Listings and deal units in Deals, authorise through Payments, then let Ordering commit the order and publish OrderPlaced through a transactional outbox, from which Fulfilment creates the seller orders. Any failure releases the reservations and voids the authorisation. Seller orders appear a moment after the order but cannot be lost, which is the risk R-01 describes. Confirm this reading with Engineering, because Q-09 was closed on the word &quot;together&quot;.</p></article><article class="note"><h4>Ordering owns the truth about status</h4><p>Fulfilment &amp; Delivery reports dispatch and carrier events; Ordering derives the order status from its lines (BR-ORD-008). The carriers&#x27; vocabulary stops at the anti-corruption layer, and seller orders never write to the shopper&#x27;s order directly.</p></article><article class="note"><h4>Seller approval is a broadcast</h4><p>Approving, rejecting or re-queuing an application changes what Seller Listings, Deals, Fulfilment and Payouts allow. FR-ADM-008 and FR-ADM-009 say the effect is immediate, so seller-facing contexts should check the seller-tools gate on every action, while the storefront catches up through the published event.</p></article><article class="note"><h4>Compositions are not contexts</h4><p>The product detail view, the seller account overview (FR-SDB-001 to 004), the agent&#x27;s issue view (FR-CS-017) and the order details each gather data from several contexts. Build them as compositions owned by the face that shows them. The storefront, seller tools and back office in Figure 1 are channels, not bounded contexts.</p></article><article class="note"><h4>Why there is no Inventory context</h4><p>A listing&#x27;s status and its stock form one invariant (BR-SLS-002, BR-SLS-005), and warehouse management is out of scope (section 3.4), so stock stays with its owner. Revisit this if stock per colour or size arrives (Q-11, FR-DEF-008), or fulfilment by the marketplace (FR-DEF-013), which would also split Fulfilment into store and marketplace fulfilment.</p></article><article class="note"><h4>Open questions that could move a boundary</h4><p>Q-13: reviews of listings would turn Separate ways into a link from Seller Listings to Ratings &amp; Reviews. Q-39: if the marketplace receives seller returns, Returns gains a store-side handling flow. Q-03: a tax engine would sit behind an ACL in Checkout. Q-37: moderation could move from Ratings &amp; Reviews to Customer Service.</p></article></div>
+  </section>
+
+  <footer>
+    <p>Source: HexCommerce Business Requirements Document v3.0 (Warren J, 22 October 2026), sections 4 to 12: user roles, capability map, status lifecycles, processes P01 to P31, functional modules, business rules, entities and integration points. Classification follows the business objectives BO-01 to BO-11.</p>
+  </footer>
+</div>
+
+<script type="application/json" id="cm-data">{"nodes": {"DISC": {"name": "Search & Discovery", "type": "core", "job": "Help shoppers get from a need to the right item quickly, across the store's catalogue and every approved seller's listings (BO-01)."}, "PRC": {"name": "Deals & Offer Pricing", "type": "core", "job": "Decide what each item sells for right now and how many units are offered at that price."}, "CHK": {"name": "Checkout", "type": "core", "job": "Turn a basket into a paid order without losing the sale or overselling (BO-02)."}, "ORD": {"name": "Ordering", "type": "core", "job": "Hold the shopper's order of record from placement to delivery, cancellation and refund."}, "LST": {"name": "Seller Listings", "type": "core", "job": "Put approved sellers' products on sale alongside the store's own (BO-05, BO-06)."}, "CAT": {"name": "Store Catalogue", "type": "supporting", "job": "Keep the store's own products, prices, stock and department structure current."}, "MKT": {"name": "Merchandising", "type": "supporting", "job": "Shape what shoppers see first: promotions, featured selections and badges."}, "BSK": {"name": "Shopping Basket & Lists", "type": "supporting", "job": "Collect items to buy now or later, within the quantity limits."}, "CUS": {"name": "Customer Account", "type": "supporting", "job": "Keep the shopper's addresses and cards ready for checkout, and honour their data-protection rights."}, "FUL": {"name": "Fulfilment & Delivery", "type": "supporting", "job": "Get every order line from dispatch to the doorstep, whoever dispatches it."}, "RET": {"name": "Returns", "type": "supporting", "job": "Take back delivered items within the returns policy and refund or replace them."}, "CS": {"name": "Customer Service", "type": "supporting", "job": "Resolve shoppers' problems with ordered items within the 24-hour promise (BO-04)."}, "REV": {"name": "Ratings & Reviews", "type": "supporting", "job": "Trustworthy customer opinion of catalogue products (BO-07)."}, "SEL": {"name": "Seller Management", "type": "supporting", "job": "Vet businesses that apply to sell, and hold the business record of approved sellers."}, "SPO": {"name": "Seller Payouts", "type": "supporting", "job": "Pay sellers what they are owed for delivered sales, net of referral fees and returns."}, "IAM": {"name": "Identity & Access", "type": "generic", "job": "Prove who someone is and what they may do."}, "PAYM": {"name": "Payments", "type": "generic", "job": "Move money through the payment service provider and record every movement."}, "NTF": {"name": "Notifications", "type": "generic", "job": "Tell shoppers, sellers and applicants by email what they need to know."}, "AUD": {"name": "Audit", "type": "generic", "job": "Keep a tamper-evident record of every back-office change."}, "CFG": {"name": "Store Configuration", "type": "generic", "job": "Let the store operator re-brand and re-parameterise the store without development work (BO-08)."}, "PSP": {"name": "Payment service provider", "type": "external", "job": "Card safekeeping, authorisation, capture, release, refunds and seller payouts (section 11.1)."}, "CAR": {"name": "Carriers", "type": "external", "job": "Report delivery progress against tracking references (FR-ORD-016)."}, "EML": {"name": "Email service", "type": "external", "job": "Delivers notification emails (FR-NTF-001 to 011)."}, "TAX": {"name": "Tax engine, if needed", "type": "external", "job": "Tax calculation if rates vary by region or product; depends on Q-03."}}, "rels": [{"rid": "R01", "u": "CAT", "d": "LST", "p": "ohs", "draw": "line", "flows": "Department and sub-department taxonomy that listings are classified by.", "refs": "FR-SLS-004, FR-SLS-005, FR-CTL-005"}, {"rid": "R02", "u": "SEL", "d": "LST", "p": "ohs", "draw": "line", "flows": "Approval puts a seller's listings on sale; rejection or return to Pending withdraws them. Business-name changes follow.", "refs": "FR-ADM-008, FR-ADM-009, BR-SAP-004, FR-SDB-007"}, {"rid": "R03", "u": "CAT", "d": "PRC", "p": "ohs", "draw": "line", "flows": "Product price, list price and units in stock for store deals.", "refs": "BR-STD-002, BR-STD-004"}, {"rid": "R04", "u": "LST", "d": "PRC", "p": "ohs", "draw": "line", "flows": "Listing price, stock and on-sale state; removing a listing removes its deals.", "refs": "BR-SDL-002, BR-SDL-008, BR-SDL-012, BR-SDL-014, BR-SLS-007"}, {"rid": "R05", "u": "CAT", "d": "MKT", "p": "ohs", "draw": "line", "flows": "Catalogue products that can carry badges or be featured.", "refs": "FR-MKT-014, FR-MKT-019, FR-MKT-020"}, {"rid": "R06", "u": "CAT", "d": "DISC", "p": "ohs", "draw": "line", "flows": "Published products with searchable text, department and first-published date.", "refs": "FR-CAT-005, FR-CTL-006, BR-CAT-004"}, {"rid": "R07", "u": "LST", "d": "DISC", "p": "ohs", "draw": "line", "flows": "Listings on sale, with seller name and condition.", "refs": "FR-SLS-020, FR-CAT-027, FR-CAT-034, FR-PDP-012"}, {"rid": "R08", "u": "PRC", "d": "DISC", "p": "ohs", "draw": "line", "flows": "Current price, discount, deal status, time remaining and share claimed.", "refs": "FR-CAT-031, FR-MKT-005, FR-MKT-010, FR-MKT-012, FR-PDP-013"}, {"rid": "R09", "u": "MKT", "d": "DISC", "p": "ohs", "draw": "line", "flows": "Badges for the featured order, promotions and featured selections.", "refs": "FR-CAT-020, FR-MKT-001, FR-MKT-006, FR-MKT-007"}, {"rid": "R10", "u": "REV", "d": "DISC", "p": "ohs", "draw": "line", "flows": "Average rating and rating count for the rating filter, sorts and popularity score.", "refs": "FR-CAT-016, FR-CAT-030, BR-CAT-001"}, {"rid": "R11", "u": "PRC", "d": "BSK", "p": "cs", "draw": "line", "flows": "Line price and units available: stock, capped by deal units left.", "refs": "BR-CRT-002, FR-CRT-008"}, {"rid": "R12", "u": "BSK", "d": "CHK", "p": "sk", "draw": "line", "flows": "One jointly owned model of totals and limits: delivery fee and threshold, tax, rounding, the units-available check. Checkout reads the basket and empties it on placement.", "refs": "BR-PRC-002 to 006, BR-CRT-005, FR-CRT-009, FR-CHK-013"}, {"rid": "R13", "u": "CUS", "d": "CHK", "p": "cs", "draw": "line", "flows": "Selected delivery address, default card and cards not expired; either can be added during checkout.", "refs": "FR-CHK-002, FR-CHK-003, FR-CHK-016, BR-ACC-010"}, {"rid": "R14", "u": "PRC", "d": "CHK", "p": "cs", "draw": "line", "flows": "Deal price at placement, and claiming deal units.", "refs": "FR-CHK-012, BR-SDL-009, BR-STD-004"}, {"rid": "R15", "u": "CAT", "d": "CHK", "p": "cs", "draw": "line", "flows": "Reserve and reduce product stock at placement; restore it for cancellations and accepted returns.", "refs": "FR-CHK-011, BR-ORD-011, FR-ORD-023"}, {"rid": "R16", "u": "LST", "d": "CHK", "p": "cs", "draw": "line", "flows": "Reserve and reduce listing stock (Out of stock at zero); the listing's seller for the own-listing check.", "refs": "FR-CHK-011, BR-SLS-005, FR-CHK-023"}, {"rid": "R17", "u": "CHK", "d": "ORD", "p": "p", "draw": "line", "flows": "The order exists only when authorisation, stock and deal claims all succeed; prices, address, card and totals are captured at placement.", "refs": "FR-CHK-022, FR-PAY-002, FR-CHK-019, FR-CHK-020, BR-ORD-003"}, {"rid": "R18", "u": "ORD", "d": "FUL", "p": "p", "draw": "line", "flows": "A placed order creates seller orders and store dispatch work; dispatch, carrier and delivery events move order lines; cancellations flow both ways.", "refs": "FR-CHK-010, FR-ORD-013, FR-ORD-014, FR-ORD-019, FR-SOR-006"}, {"rid": "R19", "u": "FUL", "d": "CHK", "p": "ohs1", "draw": "line", "flows": "Delivery options with expected dates: next-day cut-off, then +1, +2 or +4 days.", "refs": "BR-ORD-002, FR-CHK-005, FR-CHK-018"}, {"rid": "R20", "u": "PAYM", "d": "CHK", "p": "ohs1", "draw": "line", "flows": "Authorise the order total; a decline gives no issuer reason.", "refs": "FR-PAY-002, FR-PAY-003"}, {"rid": "R21", "u": "PAYM", "d": "ORD", "p": "ohs1", "draw": "line", "flows": "Capture per line on dispatch, release on cancellation, refunds; every movement recorded against the order.", "refs": "FR-PAY-004, FR-PAY-005, FR-PAY-006"}, {"rid": "R22", "u": "PAYM", "d": "CUS", "p": "ohs1", "draw": "line", "flows": "Card safekeeping: only the provider reference, brand, last four and expiry come back.", "refs": "FR-PAY-001, BR-ACC-008"}, {"rid": "R23", "u": "PAYM", "d": "SPO", "p": "ohs1", "draw": "line", "flows": "Pay approved payouts into verified accounts, with payment date and reference.", "refs": "FR-SPY-006"}, {"rid": "R24", "u": "ORD", "d": "RET", "p": "cs", "draw": "line", "flows": "Eligibility (Delivered, inside the window, who dispatched); refund of the amount paid, or a replacement line.", "refs": "BR-ORD-006, BR-PRC-009, FR-ORD-023"}, {"rid": "R25", "u": "ORD", "d": "CS", "p": "cs", "draw": "line", "flows": "Items eligible for an issue; the order with its payment and fulfilment history for agents; cancelling on the shopper's behalf.", "refs": "BR-ORD-007, FR-CS-001, FR-CS-017, FR-CS-021"}, {"rid": "R26", "u": "RET", "d": "CS", "p": "cs", "draw": "line", "flows": "Starting a return from an issue; return history for agents.", "refs": "FR-CS-021, FR-CS-017"}, {"rid": "R27", "u": "ORD", "d": "REV", "p": "ohs", "draw": "line", "flows": "Purchases that earn the Verified Purchase label; cancelled lines do not count.", "refs": "FR-REV-006, BR-ORD-007"}, {"rid": "R28", "u": "FUL", "d": "SPO", "p": "ohs", "draw": "line", "flows": "Seller orders delivered or cancelled, with delivery dates.", "refs": "BR-SOR-002, BR-SOR-003, BR-SPY-002"}, {"rid": "R29", "u": "RET", "d": "SPO", "p": "ohs", "draw": "line", "flows": "Accepted returns of seller items, deducted from revenue and payout.", "refs": "BR-SOR-002, BR-SPY-002"}, {"rid": "R30", "u": "SEL", "d": "SPO", "p": "ohs", "draw": "route", "flows": "An approved seller becomes a payee; the business name pre-fills the account holder.", "refs": "FR-SPY-001, BR-SAP-005"}, {"rid": "R31", "u": "PSP", "d": "PAYM", "p": "acl", "draw": "line", "flows": "Provider API for card safekeeping, payments, refunds and payouts, translated into the marketplace's terms.", "refs": "FR-PAY-001 to 006, NFR-SEC-010"}, {"rid": "R32", "u": "CAR", "d": "FUL", "p": "acl", "draw": "line", "flows": "Carrier delivery events, translated into out for delivery, delivered and failed attempt.", "refs": "FR-ORD-016"}, {"rid": "R33", "u": "EML", "d": "NTF", "p": "acl", "draw": "line", "flows": "Email provider API behind an adapter, so the provider can change.", "refs": "FR-NTF-001 to 011"}, {"rid": "R34", "u": "TAX", "d": "CHK", "p": "acl", "draw": "line", "flows": "Tax calculation, only if rates vary by region or product.", "refs": "BR-PRC-003, Q-03"}, {"rid": "R35", "u": "IAM", "d": "*", "p": "ohs1", "draw": "band", "flows": "Who is signed in, staff roles, sessions. Sign-in also merges the guest basket and registration creates the customer account.", "refs": "FR-ADM-010, FR-ACC-022, FR-CRT-018"}, {"rid": "R36", "u": "CFG", "d": "*", "p": "ohs", "draw": "band", "flows": "Delivery fee and threshold, tax rate, cut-off, returns window, currency, locale and business date, read by Basket, Checkout, Fulfilment, Returns, Payouts and Discovery.", "refs": "FR-CFG-001 to 009, BR-SYS-001"}, {"rid": "R37", "u": "*", "d": "NTF", "p": "ohs", "draw": "band", "flows": "Published domain events that trigger emails: order placed, dispatched, cancelled, return outcome, issue reply, application decision, payout paid.", "refs": "FR-NTF-001 to 010"}, {"rid": "R38", "u": "*", "d": "AUD", "p": "ohs", "draw": "band", "flows": "Every back-office change: decisions, refunds, moderation, payout approvals, roles, configuration.", "refs": "FR-ADM-013"}, {"rid": "R39", "u": "SEL", "d": "PRC", "p": "ohs1", "draw": "none", "flows": "Seller-tools gate: only approved sellers manage deals.", "refs": "FR-SAP-010, FR-SAP-011"}, {"rid": "R40", "u": "SEL", "d": "FUL", "p": "ohs1", "draw": "none", "flows": "Seller-tools gate: only approved sellers work seller orders.", "refs": "FR-SAP-010, FR-SAP-011"}, {"rid": "R41", "u": "FUL", "d": "BSK", "p": "ohs1", "draw": "none", "flows": "Delivery promise for each basket line's estimated arrival.", "refs": "FR-CRT-002, BR-ORD-002"}, {"rid": "R42", "u": "FUL", "d": "DISC", "p": "ohs1", "draw": "none", "flows": "Delivery promise for results and item details.", "refs": "FR-CAT-033, FR-PDP-007"}, {"rid": "R43", "u": "CUS", "d": "DISC", "p": "cs", "draw": "none", "flows": "City and postcode of the selected delivery address, wherever delivery estimates are given.", "refs": "FR-ACC-007"}, {"rid": "R44", "u": "CAT", "d": "SPO", "p": "ohs", "draw": "none", "flows": "Departments that the referral-fee schedule is set by.", "refs": "FR-SPY-004, BR-SPY-001"}, {"rid": "R45", "u": "REV", "d": "LST", "p": "sw", "draw": "none", "flows": "No link by decision: reviews cover catalogue products only and listings carry no rating.", "refs": "Q-13, BR-SLS-008"}], "patterns": {"ohs": "OHS/PL ▸ CF", "ohs1": "OHS ▸ CF", "cs": "C/S", "p": "Partnership", "sk": "Shared kernel", "acl": "ACL", "sw": "Separate ways"}}</script>
+<script>
+(function () {
+  var DATA = JSON.parse(document.getElementById('cm-data').textContent);
+  var svg = document.getElementById('cmap');
+  var panel = document.getElementById('panel');
+  var defaultPanel = panel.innerHTML;
+  var nodes = svg.querySelectorAll('.node');
+  var edges = svg.querySelectorAll('.edge');
+  var legendBtns = document.querySelectorAll('.lg');
+  var TYPE = { core: 'Core', supporting: 'Supporting', generic: 'Generic', external: 'External' };
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+  function nameOf(id) { return id === '*' ? 'every context' : DATA.nodes[id].name; }
+
+  function reset() {
+    svg.classList.remove('focusing');
+    nodes.forEach(function (n) { n.classList.remove('on', 'sel'); });
+    edges.forEach(function (e) { e.classList.remove('on'); });
+    legendBtns.forEach(function (b) { b.setAttribute('aria-pressed', 'false'); });
+  }
+  function clearAll() { reset(); panel.innerHTML = defaultPanel; }
+
+  function selectNode(id) {
+    reset();
+    svg.classList.add('focusing');
+    var on = {}; on[id] = true;
+    edges.forEach(function (e) {
+      if (e.dataset.u === id || e.dataset.d === id) { e.classList.add('on'); on[e.dataset.u] = true; on[e.dataset.d] = true; }
+    });
+    nodes.forEach(function (n) { if (on[n.dataset.id]) n.classList.add('on'); if (n.dataset.id === id) n.classList.add('sel'); });
+    renderNode(id);
+  }
+
+  function selectPattern(p, btn) {
+    var pressed = btn.getAttribute('aria-pressed') === 'true';
+    reset();
+    if (pressed) { panel.innerHTML = defaultPanel; return; }
+    btn.setAttribute('aria-pressed', 'true');
+    svg.classList.add('focusing');
+    var on = {};
+    var match = function (q) { return p === 'ohs' ? (q === 'ohs' || q === 'ohs1') : q === p; };
+    edges.forEach(function (e) { if (match(e.dataset.p)) { e.classList.add('on'); on[e.dataset.u] = true; on[e.dataset.d] = true; } });
+    nodes.forEach(function (n) { if (on[n.dataset.id]) n.classList.add('on'); });
+    renderPattern(p, match);
+  }
+
+  function header(titleText, chipText, chipCls) {
+    var ph = el('div', 'ph'); var left = el('div');
+    var h = el('h3', null, titleText); h.id = 'panel-title'; left.appendChild(h);
+    if (chipText) left.appendChild(el('span', chipCls, chipText));
+    ph.appendChild(left);
+    var b = el('button', 'clear', 'Clear selection'); b.type = 'button'; b.addEventListener('click', clearAll);
+    ph.appendChild(b);
+    return ph;
+  }
+
+  function relItem(r, id) {
+    var li = el('li');
+    li.appendChild(el('span', 'pchip p-' + r.p, DATA.patterns[r.p]));
+    var dir;
+    if (r.p === 'p' || r.p === 'sk' || r.p === 'sw') {
+      var other = r.u === id ? r.d : r.u;
+      dir = (r.p === 'sw' ? 'Separate from ' : 'With ') + nameOf(other);
+    } else if (id == null) {
+      dir = nameOf(r.u) + ' → ' + nameOf(r.d);
+    } else if (r.u === id) {
+      dir = 'Upstream of ' + nameOf(r.d);
+    } else {
+      dir = 'Downstream of ' + nameOf(r.u);
+    }
+    var d = el('span', 'dir', dir);
+    if (r.draw === 'none') d.appendChild(el('span', 'tag', 'register only'));
+    if (r.draw === 'band') d.appendChild(el('span', 'tag', 'platform band'));
+    li.appendChild(d);
+    li.appendChild(el('span', 'fl', r.flows));
+    li.appendChild(el('span', 'rf', r.rid + ' · ' + r.refs));
+    return li;
+  }
+
+  function renderNode(id) {
+    var n = DATA.nodes[id];
+    panel.innerHTML = '';
+    panel.appendChild(header(n.name, TYPE[n.type], 'tchip t-' + n.type));
+    panel.appendChild(el('p', 'pj', n.job));
+    var list = el('ul', 'rels');
+    DATA.rels.filter(function (r) { return r.u === id || r.d === id; }).forEach(function (r) { list.appendChild(relItem(r, id)); });
+    panel.appendChild(list);
+  }
+
+  function renderPattern(p, match) {
+    panel.innerHTML = '';
+    panel.appendChild(header(DATA.patterns[p] === 'OHS/PL ▸ CF' ? 'Open host service and conformist' : DATA.patterns[p], null));
+    var list = el('ul', 'rels');
+    DATA.rels.filter(function (r) { return match(r.p); }).forEach(function (r) { list.appendChild(relItem(r, null)); });
+    panel.appendChild(list);
+  }
+
+  nodes.forEach(function (n) {
+    n.addEventListener('click', function (ev) { ev.stopPropagation(); selectNode(n.dataset.id); });
+    n.addEventListener('keydown', function (ev) { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); selectNode(n.dataset.id); } });
+  });
+  svg.addEventListener('click', function () { if (svg.classList.contains('focusing')) clearAll(); });
+  legendBtns.forEach(function (b) { b.addEventListener('click', function () { selectPattern(b.dataset.pattern, b); }); });
+  document.querySelectorAll('.showmap').forEach(function (b) {
+    b.addEventListener('click', function () {
+      selectNode(b.dataset.select);
+      document.getElementById('map').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+    });
+  });
+  document.addEventListener('keydown', function (ev) { if (ev.key === 'Escape' && svg.classList.contains('focusing')) clearAll(); });
+})();
+</script>
+
+</body></html>
