@@ -2,6 +2,31 @@
 
 Experiments in using AI to carry out Domain-Driven Design (DDD) work, starting from a real-sized business requirements document (BRD) and moving towards a solution design.
 
+## Community
+
+[![DDDWithAI: Domain-Driven Design × AI-assisted development](assets/DDDWithAI-Header.png)](https://www.reddit.com/r/DDDWithAI/)
+
+**[r/DDDWithAI](https://www.reddit.com/r/DDDWithAI/)** is the Reddit community for this repository, where Domain-Driven Design meets AI-assisted development.
+
+DDD has always depended on conversations: with domain experts, between teams, and across boundaries. AI tools can now take part in that work, from reading requirements and proposing bounded contexts to drafting aggregates and writing code. The community explores where they help, where they fall short, and how to keep the domain model at the centre.
+
+Topics include:
+
+- **Strategic design with AI:** finding subdomains and bounded contexts, building context maps, and choosing relationship patterns.
+- **Tactical design with AI:** modelling aggregates, entities, value objects and domain events, and keeping invariants intact.
+- **Ubiquitous language:** using AI to pull the domain's terms out of requirements, interviews and existing code.
+- **Event storming and modelling workshops** run with or assisted by AI.
+- **From model to code:** turning a domain model into a working system, such as a modular monolith or microservices.
+- **Prompts, workflows and tools** that worked, and the ones that did not.
+
+Join to:
+
+- discuss the experiments in this repository and suggest new ones
+- share your own experiments, prompts and results
+- ask questions and review each other's models
+
+Contributions and critique of these experiments are welcome there, or as issues and pull requests here.
+
 ## Experiments
 
 Each experiment lives in its own folder, with a README describing its goal, input, output and results.
