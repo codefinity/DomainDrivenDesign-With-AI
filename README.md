@@ -1,10 +1,10 @@
+[![DDDWithAI: Domain-Driven Design × AI-assisted development](assets/DDDWithAI-Header.png)](https://www.reddit.com/r/DDDWithAI/)
+
 # DomainDrivenDesign-With-AI
 
 Experiments in using AI to carry out Domain-Driven Design (DDD) work, starting from a real-sized business requirements document (BRD) and moving towards a solution design.
 
 ## Community
-
-[![DDDWithAI: Domain-Driven Design × AI-assisted development](assets/DDDWithAI-Header.png)](https://www.reddit.com/r/DDDWithAI/)
 
 **[r/DDDWithAI](https://www.reddit.com/r/DDDWithAI/)** is the Reddit community for this repository, where Domain-Driven Design meets AI-assisted development.
 
