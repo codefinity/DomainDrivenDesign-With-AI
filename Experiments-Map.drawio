@@ -1,0 +1,46 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.3.6 Chrome/140.0.7339.249 Electron/38.8.0 Safari/537.36" version="29.3.6">
+  <diagram name="Experiment Map" id="EvFuIOMBJBM206nZ_K8_">
+    <mxGraphModel dx="1878" dy="708" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="vw4By0sNo0Tg8InYFix1-2" edge="1" parent="1" style="endArrow=none;dashed=1;html=1;rounded=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="281" y="669" as="sourcePoint" />
+            <mxPoint x="281" y="9" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="vw4By0sNo0Tg8InYFix1-3" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=14;fontStyle=1" value="Planning" vertex="1">
+          <mxGeometry height="30" width="570" x="-290" y="10" as="geometry" />
+        </mxCell>
+        <mxCell id="vw4By0sNo0Tg8InYFix1-4" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;fontStyle=1" value="Design" vertex="1">
+          <mxGeometry height="30" width="522" x="280" y="10" as="geometry" />
+        </mxCell>
+        <mxCell id="vw4By0sNo0Tg8InYFix1-5" edge="1" parent="1" style="endArrow=none;dashed=1;html=1;rounded=0;entryX=1;entryY=0;entryDx=0;entryDy=0;" target="vw4By0sNo0Tg8InYFix1-4" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="810" y="660" as="sourcePoint" />
+            <mxPoint x="640" y="340" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="vw4By0sNo0Tg8InYFix1-6" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=14;fontStyle=1" value="Execution" vertex="1">
+          <mxGeometry height="30" width="657" x="803" y="10" as="geometry" />
+        </mxCell>
+        <mxCell id="vw4By0sNo0Tg8InYFix1-16" connectable="0" parent="1" style="group" value="" vertex="1">
+          <mxGeometry height="100" width="145" x="320" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="vw4By0sNo0Tg8InYFix1-8" parent="vw4By0sNo0Tg8InYFix1-16" style="rounded=0;whiteSpace=wrap;html=1;" value="Getting Bounded Contexts" vertex="1">
+          <mxGeometry height="70" width="145" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="vw4By0sNo0Tg8InYFix1-9" parent="vw4By0sNo0Tg8InYFix1-16" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="Experiment #1" vertex="1">
+          <mxGeometry height="30" width="145" as="geometry" />
+        </mxCell>
+        <mxCell id="vw4By0sNo0Tg8InYFix1-17" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Business Requitement Document" vertex="1">
+          <mxGeometry height="60" width="120" x="-65" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="vw4By0sNo0Tg8InYFix1-18" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="UI&amp;nbsp;" vertex="1">
+          <mxGeometry height="60" width="120" x="-65" y="270" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

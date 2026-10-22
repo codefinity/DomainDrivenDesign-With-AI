@@ -55,3 +55,7 @@ CodeCoverage/
 *.VisualState.xml
 TestResult.xml
 nunit-*.xml
+
+# draw.io backup and temporary files
+.$*.drawio.bkp
+.$*.drawio.dtmp
