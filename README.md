@@ -4,6 +4,12 @@
 
 Experiments in using AI to carry out Domain-Driven Design (DDD) work, starting from a real-sized business requirements document (BRD) and moving towards a solution design.
 
+## Index
+
+- [Community](#community)
+- [Experiments](#experiments)
+  - [Experiment 1: Getting bounded contexts from a BRD](Experiment-%231-Getting-Bounded-Contexts-From-BRD/README.md)
+
 ## Community
 
 <a href="https://www.reddit.com/r/DDDWithAI/" target="_blank" rel="noopener noreferrer"><b>r/DDDWithAI</b></a> is the Reddit community for this repository, where Domain-Driven Design meets AI-assisted development.
