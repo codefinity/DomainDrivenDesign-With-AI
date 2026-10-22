@@ -1,4 +1,4 @@
-[![DDDWithAI: Domain-Driven Design × AI-assisted development](assets/DDDWithAI-Header.png)](https://www.reddit.com/r/DDDWithAI/)
+<a href="https://www.reddit.com/r/DDDWithAI/" target="_blank" rel="noopener noreferrer"><img src="assets/DDDWithAI-Header.png" alt="DDDWithAI: Domain-Driven Design × AI-assisted development"></a>
 
 # DomainDrivenDesign-With-AI
 
@@ -6,7 +6,7 @@ Experiments in using AI to carry out Domain-Driven Design (DDD) work, starting f
 
 ## Community
 
-**[r/DDDWithAI](https://www.reddit.com/r/DDDWithAI/)** is the Reddit community for this repository, where Domain-Driven Design meets AI-assisted development.
+<a href="https://www.reddit.com/r/DDDWithAI/" target="_blank" rel="noopener noreferrer"><b>r/DDDWithAI</b></a> is the Reddit community for this repository, where Domain-Driven Design meets AI-assisted development.
 
 DDD has always depended on conversations: with domain experts, between teams, and across boundaries. AI tools can now take part in that work, from reading requirements and proposing bounded contexts to drafting aggregates and writing code. The community explores where they help, where they fall short, and how to keep the domain model at the centre.
 
